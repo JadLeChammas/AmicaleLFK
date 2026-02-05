@@ -1,0 +1,157 @@
+@import url("modern.css");
+/* ==========================
+   FOOTER PRINCIPAL
+   ========================== */
+
+   .footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background-color: #f1f1f1;
+    border-top: 2px solid #ddd;
+}
+
+/* ==========================
+   ALIGNEMENT DES ÉLÉMENTS
+   ========================== */
+
+.footer-left {
+    display: flex;
+    align-items: center;
+}
+
+.footer-center {
+    display: flex;
+    gap: 50px;
+}
+
+.footer-right {
+    display: flex;
+    align-items: center;
+}
+
+/* ==========================
+   LIENS DU FOOTER
+   ========================== */
+
+.footer-links {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: #333;
+    margin: 5px 0;
+}
+
+.footer-links a:hover {
+    color: #007bff;
+}
+
+/* ==========================
+   ICÔNES SOCIALES
+   ========================== */
+
+.footer-socials {
+    display: flex;
+    gap: 15px;
+}
+
+.footer-socials a {
+    text-decoration: none;
+}
+
+.footer-socials img {
+    width: 30px;
+    height: 30px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.footer-socials img:hover {
+    transform: scale(1.2);
+}
+
+/* ==========================
+   ANIMATION DES ICÔNES
+   ========================== */
+
+.socialContainer {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgb(44, 44, 44);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.containerOne:hover {
+    background-color: #d62976;
+}
+
+.containerTwo:hover {
+    background-color: #0072b1;
+}
+
+.socialSvg {
+    width: 20px;
+}
+
+.socialSvg path {
+    fill: white;
+}
+
+.socialContainer:hover .socialSvg {
+    animation: slide-in-top 0.3s both;
+}
+
+@keyframes slide-in-top {
+    0% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ==========================
+   FOOTER BAS
+   ========================== */
+
+.footer-bottom {
+    text-align: center;
+    padding: 10px;
+    background-color: #ddd;
+    border-top: 1px solid #ccc;
+}
+
+/* ==========================
+   RESPONSIVITÉ
+   ========================== */
+
+@media screen and (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-left {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-center {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .footer-socials {
+        margin-top: 15px;
+    }
+}

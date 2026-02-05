@@ -1,0 +1,92 @@
+/* IMPORTANT: neutralize modern.css effects */
+.desktop-header,
+.desktop-header * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ===== HEADER ===== */
+.desktop-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 90px;
+    padding: 0 50px;
+    background-color: #ffffff;
+    border-bottom: 2px solid #ddd;
+    font-family: Arial, sans-serif;
+}
+
+/* ===== LEFT ===== */
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+/* ===== LOGO ===== */
+.logo img {
+    height: 110px;
+    display: block;
+}
+
+/* ===== NAV ===== */
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.main-nav a {
+    text-decoration: none !important;
+    color: #334A5A !important;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.main-nav a:hover {
+    color: #1e2f3a !important;
+}
+
+/* ===== RIGHT ===== */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* ===== USER BOX ===== */
+.user-box {
+    background-color: #334A5A;
+    padding: 10px 16px;
+    border-radius: 10px;
+}
+
+.user-box a {
+    color: #ffffff !important;
+    text-decoration: none !important;
+    font-weight: bold;
+}
+
+/* ===== BUTTONS ===== */
+.btn,
+.logout-btn,
+.admin-link {
+    padding: 10px 18px;
+    background-color: #334A5A;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.btn:hover,
+.logout-btn:hover {
+    background-color: #1e2f3a;
+}
+
+.admin-link {
+    background-color: #CCB5A5;
+    color: #000 !important;
+}

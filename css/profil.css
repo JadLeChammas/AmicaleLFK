@@ -1,0 +1,292 @@
+@import url("modern.css");
+/* ==========================
+   STYLES GÉNÉRAUX
+   ========================== */
+
+   body {
+    font-family: var(--font-family);
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* ==========================
+   CONTENEUR PRINCIPAL
+   ========================== */
+
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* ==========================
+   STYLE DE LA CARTE
+   ========================== */
+
+.profile-card {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    text-align: center;
+}
+
+/* ==========================
+   HEADER DU PROFIL (PHOTO + NOM)
+   ========================== */
+
+.profile-header {
+    margin-bottom: 20px;
+}
+
+/* ==========================
+   PHOTO DE PROFIL
+   ========================== */
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 3px solid #334A5A;
+    cursor: pointer;
+}
+
+/* ==========================
+   ZONE CLIQUABLE POUR MODIFIER L'IMAGE
+   ========================== */
+
+.profile-avatar-label {
+    display: block;
+    cursor: pointer;
+}
+
+/* ==========================
+   SECTION INFORMATIONS
+   ========================== */
+
+.profile-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    text-align: left;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    width: 48%;
+    margin-bottom: 15px;
+}
+
+.info-item .icon {
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+/* ==========================
+   TEXTES ET TITRES
+   ========================== */
+
+h4 {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+p {
+    margin: 2px 0 0;
+    font-size: 14px;
+    color: #555;
+}
+
+/* ==========================
+   BOUTON RETOUR À L'ACCUEIL
+   ========================== */
+
+.back-home {
+    text-decoration: none;
+    color: #334A5A;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    transition: color 0.3s ease;
+}
+
+.back-home:hover {
+    text-decoration: underline;
+    color: #1e2f3a;
+}
+
+/* ==========================
+   BOUTONS (UPLOAD PHOTO)
+   ========================== */
+
+#upload-photo {
+    display: none;
+}
+
+#trigger-upload {
+    background-color: #334A5A;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+#trigger-upload:hover {
+    background-color: #1e2f3a;
+}
+
+#upload-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 5px;
+    transition: 0.3s;
+    display: none;
+}
+
+#upload-btn:hover {
+    background-color: #218838;
+}
+
+/* ==========================
+   BOUTON CHANGER LE MOT DE PASSE
+   ========================== */
+
+.btn-change-password {
+    display: inline-block;
+    text-align: center;
+    background-color: #334A5A;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+    transition: 0.3s ease;
+}
+
+.btn-change-password:hover {
+    background-color: #1e2f3a;
+    text-decoration: underline;
+}
+
+/* ==========================
+   BOUTON ADMIN
+   ========================== */
+
+.btn-admin {
+    background-color: #ffc107;
+    color: black;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s ease;
+}
+
+.btn-admin:hover {
+    background-color: #e0a800;
+}
+
+/* ==========================
+   ALIGNEMENT DES BOUTONS
+   ========================== */
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ==========================
+   STYLE DES BOUTONS GÉNÉRAUX
+   ========================== */
+
+.btn {
+    background-color: #334A5A;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #1e2f3a;
+}
+
+/* ==========================
+   RESPONSIVE DESIGN
+   ========================== */
+
+/* Pour les écrans jusqu'à 768px (tablettes et petits écrans) */
+@media screen and (max-width: 768px) {
+    .profile-card {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .profile-info {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .info-item {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .btn-change-password {
+        width: 100%;
+    }
+}
+
+/* Pour les très petits écrans (mobiles jusqu'à 480px) */
+@media screen and (max-width: 480px) {
+    h2 {
+        font-size: 20px;
+    }
+
+    .info-item .icon {
+        font-size: 20px;
+        margin-right: 8px;
+    }
+
+    h4 {
+        font-size: 14px;
+    }
+
+    p {
+        font-size: 13px;
+    }
+
+    #trigger-upload,
+    #upload-btn,
+    .btn-change-password {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+}

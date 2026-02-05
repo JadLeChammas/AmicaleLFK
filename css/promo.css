@@ -1,0 +1,86 @@
+@import url("modern.css");
+/* ==========================
+   BODY & STRUCTURE
+   ========================== */
+
+   body {
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 30px 20px;
+}
+
+/* ==========================
+   TITRE & WHATSAPP
+   ========================== */
+
+.title {
+    font-size: 32px;
+    color: #334A5A;
+    margin-bottom: 20px;
+}
+
+.whatsapp-link {
+    font-size: 16px;
+    margin-bottom: 30px;
+    background-color: #e9fbe9;
+    padding: 15px;
+    border-left: 5px solid #25D366;
+    border-radius: 5px;
+}
+
+.whatsapp-link a {
+    color: #25D366;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.whatsapp-link a:hover {
+    text-decoration: underline;
+}
+
+/* ==========================
+   LISTE DES MEMBRES
+   ========================== */
+
+.liste-membres {
+    list-style-type: none;
+    padding: 0;
+}
+
+.liste-membres li {
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    transition: box-shadow 0.3s;
+}
+
+.liste-membres li:hover {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ==========================
+   RESPONSIVE
+   ========================== */
+
+@media screen and (max-width: 768px) {
+    .title {
+        font-size: 24px;
+    }
+
+    .whatsapp-link {
+        font-size: 14px;
+    }
+
+    .liste-membres li {
+        font-size: 15px;
+    }
+}

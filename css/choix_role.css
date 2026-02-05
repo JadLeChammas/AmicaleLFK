@@ -1,0 +1,97 @@
+@import url("modern.css");
+/* ==========================
+   BASE & GLOBAL
+   ========================== */
+
+   body {
+    font-family: var(--font-family);
+    background-color: #f8f9fa;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+/* ==========================
+   LIEN RETOUR CENTRÉ
+   ========================== */
+
+.back-home-wrapper {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 20px; /* espace entre le lien et la boîte */
+}
+
+.back-home {
+    color: #334A5A;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.back-home:hover {
+    text-decoration: underline;
+}
+
+/* ==========================
+   CONTAINER DU FORMULAIRE
+   ========================== */
+
+.form-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* on aligne en haut, pas centré verticalement */
+    min-height: calc(100vh - 80px); /* permet de garder une belle hauteur */
+}
+
+.form-box {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    display: block;
+}
+
+/* ==========================
+   FORMULAIRE
+   ========================== */
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* ==========================
+   BOUTONS
+   ========================== */
+
+button {
+    padding: 12px;
+    font-size: 16px;
+    background-color: #334A5A;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #1e2f3a;
+}

@@ -1,0 +1,62 @@
+@import url("modern.css");
+/* Plan du site : style principal */
+main {
+    background-color: #ffffff;
+    padding: 40px;
+    max-width: 900px;
+    margin: 40px auto;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    font-family: var(--font-family);
+    color: #333;
+}
+
+/* Titre */
+main h1 {
+    font-size: 2.4em;
+    text-align: center;
+    color: #06439d;
+    margin-bottom: 10px;
+}
+
+/* Texte introductif */
+main p {
+    text-align: center;
+    font-size: 1.1em;
+    margin-bottom: 30px;
+    color: #555;
+}
+
+/* Liste des pages */
+main ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+main ul li {
+    margin: 10px 0;
+    font-size: 1.05em;
+    position: relative;
+    padding-left: 25px;
+}
+
+main ul li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: #06439d;
+    font-weight: bold;
+}
+
+/* Liens */
+main ul li a {
+    color: #06439d;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+main ul li a:hover {
+    color: #003366;
+    text-decoration: underline;
+}

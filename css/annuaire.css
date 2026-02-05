@@ -1,0 +1,139 @@
+@import url("modern.css");
+/* ==========================
+   STYLES GÉNÉRAUX
+   ========================== */
+
+body {
+    font-family: var(--font-family);
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+    color: #333;
+}
+
+h2 {
+    color: #333;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* ==========================
+   CONTENEUR DU TABLEAU
+   ========================== */
+
+#annuaireTable_wrapper {
+    width: 100%;
+    max-width: 1200px; /* Largeur maximale pour s'adapter à l'écran */
+    margin: auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow-x: auto; /* Permet le défilement horizontal sur mobile */
+    -webkit-overflow-scrolling: touch;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* ==========================
+   TABLEAU STYLISÉ
+   ========================== */
+
+thead {
+    background: #334A5A;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    white-space: nowrap; /* Empêche les textes de se casser */
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* ==========================
+   ADAPTATION DES COLONNES
+   ========================== */
+
+th {
+    text-align: center;
+}
+
+th:nth-child(1), td:nth-child(1) { width: 60px; }
+th:nth-child(2), td:nth-child(2) { width: 150px; }
+th:nth-child(3), td:nth-child(3) { width: 150px; }
+th:nth-child(4), td:nth-child(4) { width: 150px; }
+th:nth-child(5), td:nth-child(5) { width: 250px; }
+th:nth-child(6), td:nth-child(6) { width: 150px; }
+th:nth-child(7), td:nth-child(7) { width: 200px; } /* ETABLISSEMENT */
+
+/* ==========================
+   RESPONSIVITÉ
+   ========================== */
+
+@media screen and (max-width: 768px) {
+    #annuaireTable_wrapper {
+        padding: 10px;
+        overflow-x: auto;
+        max-width: 100%;
+    }
+
+    table {
+        width: 100%;
+        display: block;
+        overflow-x: auto;
+    }
+
+    th, td {
+        padding: 10px;
+        font-size: 14px;
+        text-align: left;
+        white-space: nowrap;
+    }
+
+    th:nth-child(7), 
+    td:nth-child(7) {
+        display: table-cell; /* Affiche toujours la colonne établissement */
+    }
+}
+
+/* ==========================
+   AJUSTEMENTS GLOBAUX
+   ========================== */
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.container {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0 auto;
+}
+
+.wrapper, 
+.content, 
+.page-container {
+    max-width: 100%;
+    padding: 0;
+    margin: 0 auto;
+}

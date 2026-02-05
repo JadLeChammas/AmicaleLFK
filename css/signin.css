@@ -1,0 +1,214 @@
+@import url("modern.css");
+/* ==========================
+   STYLES GÉNÉRAUX
+   ========================== */
+
+   body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f8f9fa;
+}
+
+/* ==========================
+   CONTENEUR FORMULAIRE
+   ========================== */
+
+.form-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+/* ==========================
+   BOÎTE DE FORMULAIRE
+   ========================== */
+
+.form-box {
+    max-width: 300px;
+    background: #ffffff;
+    overflow: hidden;
+    border-radius: 16px;
+    color: #010101;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+}
+
+/* ==========================
+   FORMULAIRE
+   ========================== */
+
+.form {
+    display: flex;
+    flex-direction: column;
+    padding: 32px 24px 24px;
+    gap: 16px;
+    text-align: center;
+}
+
+/* ==========================
+   TITRES ET TEXTES
+   ========================== */
+
+.title {
+    font-weight: bold;
+    font-size: 1.6rem;
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* ==========================
+   CHAMPS DE FORMULAIRE
+   ========================== */
+
+.form-container {
+    overflow: hidden;
+    border-radius: 8px;
+    background-color: #fff;
+    margin: 1rem 0 0.5rem;
+    width: 100%;
+}
+
+.input {
+    background: none;
+    border: 0;
+    outline: 0;
+    height: 40px;
+    width: 100%;
+    border-bottom: 1px solid #eee;
+    font-size: 0.9rem;
+    padding: 8px 15px;
+}
+
+/* ==========================
+   SECTION DE FORMULAIRE
+   ========================== */
+
+.form-section {
+    padding: 16px;
+    font-size: 0.85rem;
+    background-color: #EAEAEA;
+    box-shadow: rgb(0 0 0 / 8%) 0 -1px;
+}
+
+.form-section a {
+    font-weight: bold;
+    color: #334A5A;
+    transition: color 0.3s ease;
+}
+
+.form-section a:hover {
+    color: #334A5A;
+    text-decoration: underline;
+}
+
+/* ==========================
+   BOUTONS
+   ========================== */
+
+.form button {
+    background-color: #334A5A;
+    color: #fff;
+    border: 0;
+    border-radius: 24px;
+    padding: 10px 16px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form button:hover {
+    background-color: #1e2f3a;
+}
+
+/* ==========================
+   LIEN MOT DE PASSE OUBLIÉ
+   ========================== */
+
+.forgot-password {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    color: #334A5A;
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+    color: #222;
+}
+
+/* ==========================
+   BOUTON RETOUR À L'ACCUEIL
+   ========================== */
+
+.back-home {
+    font-size: 16px;
+    color: #334A5A;
+    text-decoration: none;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.back-home:hover {
+    text-decoration: underline;
+}
+
+/* ==========================
+   BOUTON ADMIN
+   ========================== */
+
+.btn-admin {
+    background-color: #ffc107;
+    color: black;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s ease;
+}
+
+.btn-admin:hover {
+    background-color: #e0a800;
+}
+
+/* ==========================
+   ALIGNEMENT DES BOUTONS
+   ========================== */
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ==========================
+   STYLE DES BOUTONS GÉNÉRAUX
+   ========================== */
+
+.btn {
+    background-color: #334A5A;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #1e2f3a;
+}

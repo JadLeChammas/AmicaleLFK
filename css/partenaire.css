@@ -1,0 +1,57 @@
+@import url("modern.css");
+body {
+    font-family: var(--font-family);
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.titre-page {
+    font-size: 2em;
+    margin: 30px 0;
+    color: #334A5A;
+}
+
+.sponsors-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    padding: 20px 10%;
+}
+
+.sponsor-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    padding: 30px 20px;
+    transition: transform 0.3s ease;
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* ✅ centre horizontalement le logo + texte */
+    justify-content: center; /* ✅ centre verticalement */
+    height: 250px; /* ajuste si besoin */
+    text-align: center;
+}
+
+
+.sponsor-card:hover {
+    transform: scale(1.05);
+}
+
+.sponsor-card img {
+    width: auto;
+    max-width: 100%;
+    max-height: 100px; /* ✅ ajuste la taille sans déformer */
+    margin-bottom: 15px;
+    object-fit: contain; /* ✅ pour que le logo reste bien centré */
+}
+
+
+.sponsor-card h3 {
+    margin: 0;
+    font-size: 1.1em;
+}
+

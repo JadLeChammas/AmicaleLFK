@@ -1,0 +1,44 @@
+@import url("modern.css");
+main {
+    padding: 40px;
+    max-width: 900px;
+    margin: 40px auto;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    border-radius: 10px;
+    font-family: var(--font-family);
+    color: #333;
+    line-height: 1.7;
+}
+
+/* Titres */
+main h1 {
+    font-size: 2.4em;
+    margin-bottom: 25px;
+    text-align: center;
+    color: #06439d; /* Ton bleu */
+}
+
+main h2 {
+    font-size: 1.5em;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    color: #06439d; /* Ton bleu */
+    border-left: 4px solid #06439d;
+    padding-left: 10px;
+}
+
+/* Paragraphes */
+main p {
+    margin-bottom: 15px;
+}
+
+/* Liens */
+main a {
+    color: #06439d; 
+    text-decoration: none;
+}
+
+main a:hover {
+    text-decoration: underline;
+}

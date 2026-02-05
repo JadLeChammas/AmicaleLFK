@@ -1,0 +1,142 @@
+@import url("modern.css");
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    margin: 0;
+    padding: 20px;
+}
+
+.admin-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.admin-box {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 95%;
+    max-width: 1400px;
+    margin: auto;
+    overflow-x: auto;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: fixed;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px 10px;
+    text-align: center;
+    min-width: 120px;
+    word-wrap: break-word;
+}
+
+th {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+td i {
+    color: #999;
+    font-style: italic;
+}
+
+/* BADGES RÔLES */
+td.role-badge::before {
+    content: attr(data-role);
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    color: white;
+    font-weight: bold;
+    background-color: gray;
+}
+
+td.role-badge[data-role="admin"]::before { background-color: #b32d2e; }
+td.role-badge[data-role="user"]::before { background-color: #135e96; }
+td.role-badge[data-role="eleve"]::before { background-color: #8a2be2; }
+td.role-badge[data-role="membre_d_honneur"]::before { background-color: #008f8f; }
+
+/* ACTIONS */
+td.actions-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    min-width: 180px;
+}
+
+.validate-link,
+.deny-link {
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: bold;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.3s ease;
+}
+
+.validate-link {
+    background-color: #00a32a;
+}
+.validate-link:hover {
+    background-color: #008f1c;
+}
+
+.deny-link {
+    background-color: var(--danger-color);
+}
+.deny-link:hover {
+    background-color: #b32d2e;
+}
+
+.success {
+    color: green;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 30px;
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.back-link:hover {
+    color: #135e96;
+    text-decoration: underline;
+}

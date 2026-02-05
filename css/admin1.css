@@ -1,0 +1,182 @@
+@import url("modern.css");
+/* ==========================
+   GLOBAL
+   ========================== */
+   body {
+    padding-top: 80px; /* Espace en haut de la page */
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    margin: 0;
+}
+
+/* ==========================
+   CONTENEUR PRINCIPAL
+   ========================== */
+.container {
+    max-width: 900px;
+    margin: 0 auto 40px;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ==========================
+   TITRE PRINCIPAL
+   ========================== */
+.container h2 {
+    font-size: 26px;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* ==========================
+   LIEN RETOUR (au-dessus du container)
+   ========================== */
+.back-wrapper {
+    text-align: center;
+    margin: 0 auto 30px;
+}
+
+.back-home {
+    display: inline-block;
+    text-decoration: none;
+    color: var(--primary-color);
+    font-size: 16px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.back-home:hover {
+    text-decoration: underline;
+    color: #135e96;
+}
+
+/* ==========================
+   LIEN DANS LE CONTAINER (au cas où)
+   ========================== */
+.container a {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.container a:hover {
+    text-decoration: underline;
+    color: #135e96;
+}
+
+/* ==========================
+   CARTE DE PUBLICATION
+   ========================== */
+.post-item {
+    width: 100%;
+    max-width: 600px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 0 auto 20px;
+}
+
+.post-item h3 {
+    font-size: 20px;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.post-item p {
+    color: #555;
+    font-size: 15px;
+    line-height: 1.5;
+    margin: 10px 0;
+    white-space: pre-wrap;
+}
+
+.post-item img {
+    display: block;
+    margin: 15px auto;
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+/* ==========================
+   ACTIONS BOUTONS
+   ========================== */
+.post-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.approve-btn,
+.deny-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+    color: white;
+}
+
+.approve-btn {
+    background-color: #00a32a;
+}
+
+.approve-btn:hover {
+    background-color: #008f1c;
+}
+
+.deny-btn {
+    background-color: var(--danger-color);
+}
+
+.deny-btn:hover {
+    background-color: #b32d2e;
+}
+
+/* ==========================
+   ANCIEN STYLE (si utilisé encore)
+   ========================== */
+#adminPostsContainer > div {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #f9f9f9;
+    transition: box-shadow 0.3s ease;
+}
+
+#adminPostsContainer > div:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+#adminPostsContainer h3 {
+    font-size: 20px;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+#adminPostsContainer p {
+    font-size: 15px;
+    color: #444;
+    margin-bottom: 10px;
+    white-space: pre-wrap;
+}
+
+#adminPostsContainer img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 10px;
+}

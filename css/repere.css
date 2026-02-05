@@ -1,0 +1,139 @@
+@import url("modern.css");
+/* ========== STRUCTURE GLOBALE ========== */
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 40px 20px;
+  font-family: var(--font-family);
+  background-color: #f4f4f9;
+  color: #2c3e50;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+}
+
+h1, h2, h3, h4, h5 {
+  color: #2c3e50;
+  margin-top: 20px;
+}
+
+/* ========== SECTION REPÈRE ========== */
+.repere-section {
+  text-align: center;
+  padding: 30px 0;
+}
+
+.repere-section h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #06439d;
+}
+
+/* ========== BOUTONS DE CONTINENT ========== */
+.repere-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.continent-btn {
+  background-color: #06439d;
+  color: #ffffff;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.continent-btn:hover {
+  background-color: #000000;
+  transform: translateY(-2px);
+}
+
+/* Responsive pour petits écrans */
+@media screen and (max-width: 600px) {
+  .continent-btn {
+    width: 100%;
+    text-align: center;
+    padding: 12px;
+  }
+}
+
+/* ========== RÉSULTATS ========== */
+#results {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  margin-top: 30px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+#output {
+  margin-top: 20px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* ========== ÉLÉMENTS DÉROULANTS (continent > pays > ville > université) ========== */
+.toggle-block {
+  font-weight: bold;
+  color: #06439d;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  margin: 5px 0;
+  transition: color 0.3s ease;
+}
+
+.toggle-block:hover {
+  color: #000000;
+}
+
+.toggle-content {
+  margin-left: 20px;
+  display: none; /* Par défaut caché, à afficher en JavaScript */
+  transition: all 0.3s ease;
+}
+
+/* Effet déroulant */
+.toggle-content.open {
+  display: block;
+}
+
+/* ========== LISTE DES MEMBRES ========== */
+.member-list {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 10px;
+}
+
+.member-list li {
+  background: #ffffff;
+  margin-bottom: 10px;
+  padding: 12px 15px;
+  border-left: 4px solid #06439d;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.member-list li:hover {
+  transform: translateX(5px);
+  background-color: #f0f8ff;
+}
+
+/* Lien email */
+.member-list a {
+  color: #06439d;
+  text-decoration: none;
+}
+
+.member-list a:hover {
+  text-decoration: underline;
+}

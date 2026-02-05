@@ -1,0 +1,287 @@
+@import url("modern.css");
+/* ==========================
+   BASE & GLOBAL
+   ========================== */
+   body {
+    font-family: var(--font-family);
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    overflow-y: auto;
+}
+
+/* ==========================
+   WRAPPER GLOBAL
+   ========================== */
+.form-wrapper {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+
+/* ==========================
+   FORMULAIRE
+   ========================== */
+.form-box {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    width: 100%;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* ==========================
+   CHAMPS
+   ========================== */
+label {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
+    text-align: left;
+    display: block;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+input[type="file"],
+select {
+    padding: 12px 14px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+
+input[type="file"] {
+    cursor: pointer;
+    height: auto;
+    padding: 10px 12px;
+}
+
+input[type="date"] {
+    height: 45px;
+}
+
+/* ==========================
+   TÉLÉPHONE
+   ========================== */
+.telephone-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.telephone-row {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.select-indicatif {
+    width: 35%;
+    min-width: 90px;
+    height: 45px;
+    font-size: 16px;
+    padding: 12px 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    appearance: none;
+    box-sizing: border-box;
+}
+
+.telephone-row .input {
+    flex: 1;
+    height: 45px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 12px 14px;
+    box-sizing: border-box;
+}
+
+/* ==========================
+   BOUTON
+   ========================== */
+button {
+    padding: 12px;
+    font-size: 16px;
+    background-color: #334A5A;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #1e2f3a;
+}
+
+/* ==========================
+   SECTION LIENS
+   ========================== */
+.form-section {
+    margin-top: 20px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.form-section a {
+    color: #334A5A;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.form-section a:hover {
+    text-decoration: underline;
+}
+
+.return-link {
+    display: block;
+    text-align: center;
+    margin: 0 auto 30px auto;
+    font-size: 16px;
+    font-weight: bold;
+    color: #334A5A;
+    text-decoration: none;
+}
+
+.return-link:hover {
+    text-decoration: underline;
+}
+
+/* ==========================
+   RESPONSIVE
+   ========================== */
+@media screen and (max-width: 600px) {
+    .form-box {
+        padding: 25px;
+        max-width: 90%;
+    }
+
+    .input,
+    select,
+    input[type="file"] {
+        font-size: 15px;
+        height: auto;
+    }
+
+    .telephone-row {
+        flex-direction: column;
+    }
+
+    .select-indicatif {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .form-wrapper {
+        padding: 0 10px;
+    }
+
+    .form-box {
+        padding: 30px;
+        max-width: 100%;
+    }
+
+    .title {
+        font-size: 20px;
+    }
+
+    label {
+        font-size: 13px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="date"],
+    input[type="file"],
+    select {
+        font-size: 15px;
+        padding: 10px 12px;
+    }
+
+    .form-section {
+        font-size: 13px;
+    }
+
+    button {
+        font-size: 15px;
+        padding: 10px;
+    }
+
+    .return-link {
+        font-size: 15px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .title {
+        font-size: 18px;
+    }
+
+    button {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .form-box {
+        padding: 20px;
+    }
+
+    .return-link {
+        font-size: 14px;
+    }
+
+    .form-section {
+        padding: 0 5px;
+    }
+
+    input[type="file"] {
+        padding: 8px 10px;
+    }
+
+    .telephone-row .input {
+        padding: 10px;
+    }
+}
