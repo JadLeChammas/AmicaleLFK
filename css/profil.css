@@ -1,292 +1,209 @@
-@import url("modern.css");
-/* ==========================
-   STYLES GÉNÉRAUX
-   ========================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-   body {
-    font-family: var(--font-family);
-    background-color: #f8f9fa;
+:root {
+    --primary: #334A5A;
+    --accent: #4da3ff;
+    --danger: #e5533d;
+    --bg: #f4f6f8;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #eef2f7, #f8f9fb);
     margin: 0;
-    padding: 0;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
 }
 
-/* ==========================
-   CONTENEUR PRINCIPAL
-   ========================== */
-
-.profile-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
+/* Wrapper */
+.profile-wrapper {
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
 }
 
-/* ==========================
-   STYLE DE LA CARTE
-   ========================== */
+/* Retour accueil */
+.back-home {
+    display: block;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 500;
+    color: var(--primary);
+    text-decoration: none;
+}
 
+/* Carte */
 .profile-card {
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 500px;
+    background: rgba(255,255,255,0.96);
+    border-radius: 20px;
+    padding: 35px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.08);
+}
+
+/* Header */
+.profile-header {
     text-align: center;
 }
 
-/* ==========================
-   HEADER DU PROFIL (PHOTO + NOM)
-   ========================== */
+/* Avatar */
+.avatar-wrapper {
+    width: 130px;
+    height: 130px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid var(--primary);
+}
 
-.profile-header {
+.avatar-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: 600;
+    color: #6b7a88;
+    font-size: 16px;
+    line-height: 1.2;
+}
+
+h2 {
+    margin: 10px 0 15px;
+}
+
+/* Photo actions */
+.photo-actions {
     margin-bottom: 20px;
 }
 
-/* ==========================
-   PHOTO DE PROFIL
-   ========================== */
-
-.profile-avatar {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 10px;
-    border: 3px solid #334A5A;
-    cursor: pointer;
-}
-
-/* ==========================
-   ZONE CLIQUABLE POUR MODIFIER L'IMAGE
-   ========================== */
-
-.profile-avatar-label {
-    display: block;
-    cursor: pointer;
-}
-
-/* ==========================
-   SECTION INFORMATIONS
-   ========================== */
-
-.profile-info {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    text-align: left;
-}
-
-.info-item {
-    display: flex;
-    align-items: center;
-    width: 48%;
-    margin-bottom: 15px;
-}
-
-.info-item .icon {
-    font-size: 24px;
-    margin-right: 10px;
-}
-
-/* ==========================
-   TEXTES ET TITRES
-   ========================== */
-
-h4 {
-    margin: 0;
-    font-size: 16px;
-    color: #333;
-}
-
-p {
-    margin: 2px 0 0;
-    font-size: 14px;
-    color: #555;
-}
-
-/* ==========================
-   BOUTON RETOUR À L'ACCUEIL
-   ========================== */
-
-.back-home {
-    text-decoration: none;
-    color: #334A5A;
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    transition: color 0.3s ease;
-}
-
-.back-home:hover {
-    text-decoration: underline;
-    color: #1e2f3a;
-}
-
-/* ==========================
-   BOUTONS (UPLOAD PHOTO)
-   ========================== */
-
-#upload-photo {
+.photo-edit-buttons {
     display: none;
-}
-
-#trigger-upload {
-    background-color: #334A5A;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    margin-top: 10px;
-    border-radius: 5px;
-    transition: 0.3s;
-}
-
-#trigger-upload:hover {
-    background-color: #1e2f3a;
-}
-
-#upload-btn {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    margin-top: 10px;
-    border-radius: 5px;
-    transition: 0.3s;
-    display: none;
-}
-
-#upload-btn:hover {
-    background-color: #218838;
-}
-
-/* ==========================
-   BOUTON CHANGER LE MOT DE PASSE
-   ========================== */
-
-.btn-change-password {
-    display: inline-block;
-    text-align: center;
-    background-color: #334A5A;
-    color: white;
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 10px 20px;
-    border-radius: 5px;
-    margin-top: 20px;
-    transition: 0.3s ease;
-}
-
-.btn-change-password:hover {
-    background-color: #1e2f3a;
-    text-decoration: underline;
-}
-
-/* ==========================
-   BOUTON ADMIN
-   ========================== */
-
-.btn-admin {
-    background-color: #ffc107;
-    color: black;
-    border: none;
-    padding: 10px 15px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: 0.3s ease;
-}
-
-.btn-admin:hover {
-    background-color: #e0a800;
-}
-
-/* ==========================
-   ALIGNEMENT DES BOUTONS
-   ========================== */
-
-.header-right {
-    display: flex;
-    align-items: center;
+    justify-content: center;
     gap: 10px;
+    margin-top: 10px;
 }
 
-/* ==========================
-   STYLE DES BOUTONS GÉNÉRAUX
-   ========================== */
+/* Grid infos */
+.profile-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
 
-.btn {
-    background-color: #334A5A;
+.info-card {
+    background: var(--bg);
+    border-radius: 14px;
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.info-card span {
+    font-size: 22px;
+}
+
+.info-card small {
+    font-size: 12px;
+    color: #777;
+}
+
+.info-card p {
+    margin: 2px 0 0;
+    font-weight: 600;
+}
+
+.info-card.full {
+    grid-column: span 2;
+}
+
+/* Boutons */
+.btn-outline {
+    border: 2px solid var(--primary);
+    background: none;
+    color: var(--primary);
+    padding: 9px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.btn-outline:hover {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-primary {
+    background: var(--accent);
     color: white;
     border: none;
-    padding: 10px 15px;
-    font-size: 16px;
-    font-weight: bold;
+    padding: 9px 16px;
+    border-radius: 10px;
     cursor: pointer;
-    border-radius: 5px;
-    transition: 0.3s ease;
+    font-weight: 500;
 }
 
-.btn:hover {
-    background-color: #1e2f3a;
+.btn-danger {
+    background: var(--danger);
+    color: white;
+    padding: 12px;
+    border-radius: 12px;
+    text-decoration: none;
+    text-align: center;
+    font-weight: 600;
 }
 
-/* ==========================
-   RESPONSIVE DESIGN
-   ========================== */
+.btn-danger-outline {
+    border: 2px solid var(--danger);
+    color: var(--danger);
+    background: none;
+    padding: 9px 16px;
+    border-radius: 10px;
+    text-decoration: none;
+}
 
-/* Pour les écrans jusqu'à 768px (tablettes et petits écrans) */
-@media screen and (max-width: 768px) {
-    .profile-card {
-        width: 90%;
-        padding: 20px;
+.btn-danger-outline:hover {
+    background: var(--danger);
+    color: white;
+}
+
+/* Actions bas */
+.profile-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.profile-actions a {
+    flex: 1;
+    text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 520px) {
+    .profile-info-grid {
+        grid-template-columns: 1fr;
     }
 
-    .profile-info {
+    .info-card.full {
+        grid-column: span 1;
+    }
+
+    .profile-actions {
         flex-direction: column;
-        align-items: center;
-    }
-
-    .info-item {
-        width: 100%;
-        justify-content: flex-start;
-    }
-
-    .btn-change-password {
-        width: 100%;
-    }
-}
-
-/* Pour les très petits écrans (mobiles jusqu'à 480px) */
-@media screen and (max-width: 480px) {
-    h2 {
-        font-size: 20px;
-    }
-
-    .info-item .icon {
-        font-size: 20px;
-        margin-right: 8px;
-    }
-
-    h4 {
-        font-size: 14px;
-    }
-
-    p {
-        font-size: 13px;
-    }
-
-    #trigger-upload,
-    #upload-btn,
-    .btn-change-password {
-        font-size: 14px;
-        padding: 8px 12px;
     }
 }

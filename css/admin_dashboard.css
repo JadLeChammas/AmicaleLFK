@@ -1,5 +1,12 @@
 @import url("modern.css");
 
+/* =========================
+   GLOBAL
+   ========================= */
+* {
+    box-sizing: border-box;
+}
+
 body {
     font-family: var(--font-family);
     background-color: var(--bg-color);
@@ -8,17 +15,25 @@ body {
     color: var(--text-color);
 }
 
+/* =========================
+   CONTAINER PRINCIPAL
+   ========================= */
 .admin-dashboard {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 60px auto;
     padding: 0 24px 60px;
 }
 
+/* =========================
+   HEADER
+   ========================= */
 .admin-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 16px;
     margin-bottom: 24px;
+    flex-wrap: wrap;
 }
 
 .back-home {
@@ -37,6 +52,7 @@ body {
 .admin-header__meta {
     display: flex;
     gap: 8px;
+    flex-wrap: wrap;
 }
 
 .admin-badge {
@@ -48,12 +64,19 @@ body {
     font-weight: 600;
 }
 
+/* =========================
+   HERO
+   ========================= */
 .admin-hero {
-    background: linear-gradient(135deg, rgba(34, 113, 177, 0.9), rgba(34, 113, 177, 0.75));
+    background: linear-gradient(
+        135deg,
+        rgba(34, 113, 177, 0.9),
+        rgba(34, 113, 177, 0.75)
+    );
     color: #fff;
     padding: 32px;
-    border-radius: 18px;
-    box-shadow: 0 14px 30px rgba(34, 113, 177, 0.25);
+    border-radius: 20px;
+    box-shadow: 0 18px 40px rgba(34, 113, 177, 0.25);
 }
 
 .admin-hero h1 {
@@ -62,12 +85,15 @@ body {
 }
 
 .admin-hero__subtitle {
-    margin: 10px 0 0;
+    margin-top: 10px;
     font-size: 16px;
-    max-width: 620px;
+    max-width: 650px;
     line-height: 1.5;
 }
 
+/* =========================
+   ALERT
+   ========================= */
 .admin-alert {
     margin-top: 28px;
     padding: 16px 20px;
@@ -78,54 +104,69 @@ body {
     font-weight: 600;
 }
 
+/* =========================
+   STATS
+   ========================= */
 .admin-stats {
     margin: 36px 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
 }
 
 .stat-card {
     background: #fff;
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+    border-radius: 18px;
+    padding: 26px;
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.08);
     border: 1px solid rgba(0, 0, 0, 0.04);
 }
 
 .stat-label {
-    margin: 0 0 12px;
-    font-size: 14px;
+    margin-bottom: 12px;
+    font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: #4d4d4d;
 }
 
 .stat-value {
-    margin: 0;
-    font-size: 34px;
+    font-size: 36px;
     font-weight: 700;
     color: var(--primary-color);
 }
 
+/* =========================
+   PANELS GRID
+   ========================= */
 .admin-panels {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 28px;
+    align-items: stretch;
 }
 
+/* =========================
+   PANEL
+   ========================= */
 .admin-panel {
     background: #fff;
-    border-radius: 18px;
-    padding: 26px;
+    border-radius: 20px;
+    padding: 28px;
     border: 1px solid rgba(0, 0, 0, 0.05);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.08);
+
     display: flex;
     flex-direction: column;
     gap: 18px;
-    min-height: 240px;
+
+    /* sécurité anti-débordement */
+    overflow: hidden;
 }
 
+/* =========================
+   PANEL HEADER
+   ========================= */
 .panel-header {
     display: flex;
     gap: 16px;
@@ -133,15 +174,16 @@ body {
 }
 
 .panel-icon {
-    width: 44px;
-    height: 44px;
+    width: 46px;
+    height: 46px;
     background: rgba(34, 113, 177, 0.12);
     color: var(--primary-color);
-    border-radius: 12px;
+    border-radius: 14px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     font-size: 22px;
+    flex-shrink: 0;
 }
 
 .panel-header h2 {
@@ -150,17 +192,20 @@ body {
 }
 
 .panel-header p {
-    margin: 8px 0 0;
+    margin-top: 8px;
     color: #4d4d4d;
     font-size: 14px;
     line-height: 1.5;
 }
 
+/* =========================
+   PANEL ACTIONS
+   ========================= */
 .panel-actions {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    margin-top: auto;
+    margin-top: auto; /* pousse les boutons en bas */
 }
 
 .panel-actions .btn {
@@ -168,17 +213,27 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 10px;
+    border-radius: 12px;
     font-size: 15px;
     padding: 12px 18px;
 }
 
+/* Bouton danger */
 .panel-actions .btn.btn-danger {
     background-color: var(--danger-color);
 }
 
 .panel-actions .btn.btn-danger:hover {
     background-color: #b32d2e;
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+@media (max-width: 1024px) {
+    .admin-dashboard {
+        margin: 40px auto;
+    }
 }
 
 @media (max-width: 768px) {
@@ -196,10 +251,20 @@ body {
     }
 
     .stat-card {
-        padding: 20px;
+        padding: 22px;
     }
 
     .admin-panel {
-        padding: 22px;
+        padding: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-hero h1 {
+        font-size: 22px;
+    }
+
+    .stat-value {
+        font-size: 30px;
     }
 }

@@ -13,7 +13,7 @@ $currentYear = date("Y");
 $futureYear = $currentYear + 1000; // Génère les anniversaires jusqu’à +1000 ans
 
 // 🎂 Anniversaires des membres
-$sql = "SELECT nom, prenom, date_naissance FROM membres WHERE date_naissance IS NOT NULL";
+$sql = "SELECT nom, prenom, date_naissance FROM membres WHERE date_naissance IS NOT NULL AND id >= 1000";
 $stmt = $conn->query($sql);
 
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {

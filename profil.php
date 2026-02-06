@@ -2,114 +2,176 @@
 session_start();
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/auth.php';
-requireAnyRole(); // ✅ Tous les utilisateurs connectés
+
+requireAnyRole();
 
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
-if ($conn->connect_error) {
-    die("Connexion échouée: " . $conn->connect_error);
-}
-
 $user_id = $_SESSION['user_id'];
-$sql = "SELECT nom, prenom, email, telephone, date_naissance, annee_promotion, etablissement, photo_profil 
-        FROM membres 
-        WHERE id = ?";
-$stmt = $conn->prepare($sql);
+
+/* Récupération utilisateur */
+$stmt = $conn->prepare("
+    SELECT nom, prenom, email, telephone, date_naissance,
+           annee_promotion, etablissement, photo_profil, sexe
+    FROM membres
+    WHERE id = ?
+");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
-$result = $stmt->get_result();
-$user = $result->fetch_assoc();
+$user = $stmt->get_result()->fetch_assoc();
 $stmt->close();
 $conn->close();
 
-$photo_profil = !empty($user['photo_profil']) ? "uploads/" . htmlspecialchars($user['photo_profil']) : "default-avatar.png";
+/* LOGIQUE AVATAR */
+if (!empty($user['photo_profil'])) {
+    $avatar = "uploads/" . htmlspecialchars($user['photo_profil']) . "?v=" . time();
+} else {
+    if ($user['sexe'] === 'F') {
+        $avatar = "uploads/avatar-femme.webp";
+    } else {
+        $avatar = "uploads/avatar-homme.webp";
+    }
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Profil - <?= htmlspecialchars($user['prenom'] . ' ' . $user['nom']) ?></title>
-    <link rel="stylesheet" href="css/profil.css">
+    <title>Profil — <?= htmlspecialchars($user['prenom'].' '.$user['nom']) ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="/img/lfk.png">
+    <link rel="stylesheet" href="css/profil.css">
 </head>
+
 <body>
 
-<div class="profile-container">
+<div class="profile-wrapper">
+
     <a href="index.php" class="back-home">← Retour à l'accueil</a>
 
     <div class="profile-card">
+
+        <!-- HEADER -->
         <div class="profile-header">
-            <label for="upload-photo" class="profile-avatar-label">
-                <img src="<?= $photo_profil ?>" alt="Avatar" class="profile-avatar">
-            </label>
 
-            <h2><?= htmlspecialchars($user['prenom'] . ' ' . $user['nom']) ?></h2>
+            <!-- AVATAR -->
+            <div class="avatar-wrapper">
+                <img src="<?= $avatar ?>" alt="Photo de profil">
+            </div>
 
-            <form action="upload_photo.php" method="POST" enctype="multipart/form-data">
-                <input type="file" id="upload-photo" name="photo" hidden>
-                <button type="button" id="trigger-upload">Changer la photo</button>
-                <button type="submit" id="upload-btn" style="display: none;">Téléverser</button>
-            </form>
+            <h2><?= htmlspecialchars($user['prenom'].' '.$user['nom']) ?></h2>
+
+            <!-- ACTIONS PHOTO -->
+            <div class="photo-actions">
+
+                <button type="button" id="toggle-photo-actions" class="btn-outline">
+                    Changer la photo
+                </button>
+
+                <div class="photo-edit-buttons" id="photo-edit-buttons">
+
+                    <!-- Upload -->
+                    <form action="upload_photo.php" method="POST" enctype="multipart/form-data">
+                        <input type="file" name="photo" id="upload-photo" accept="image/*" hidden>
+
+                        <button type="button" id="choose-photo" class="btn-primary">
+                            Téléverser une photo
+                        </button>
+
+                        <button type="submit" id="confirm-upload" class="btn-primary" style="display:none;">
+                            Valider
+                        </button>
+                    </form>
+
+                    <!-- Suppression -->
+                    <form action="supprimer_photo.php" method="POST">
+                        <button type="submit" class="btn-danger-outline">
+                            Supprimer la photo
+                        </button>
+                    </form>
+
+                </div>
+            </div>
         </div>
 
-        <div class="profile-info">
-            <div class="info-item">
-                <span class="icon">📧</span>
+        <!-- INFOS -->
+        <div class="profile-info-grid">
+
+            <div class="info-card">
+                <span>📧</span>
                 <div>
-                    <h4>Email</h4>
+                    <small>Email</small>
                     <p><?= htmlspecialchars($user['email']) ?></p>
                 </div>
             </div>
 
-            <div class="info-item">
-                <span class="icon">🎓</span>
+            <div class="info-card">
+                <span>🎓</span>
                 <div>
-                    <h4>Établissement</h4>
+                    <small>Établissement</small>
                     <p><?= htmlspecialchars($user['etablissement']) ?></p>
                 </div>
             </div>
 
-            <div class="info-item">
-                <span class="icon">📅</span>
+            <div class="info-card">
+                <span>📅</span>
                 <div>
-                    <h4>Date de naissance</h4>
+                    <small>Date de naissance</small>
                     <p><?= htmlspecialchars($user['date_naissance']) ?></p>
                 </div>
             </div>
 
-            <div class="info-item">
-                <span class="icon">📞</span>
+            <div class="info-card">
+                <span>📞</span>
                 <div>
-                    <h4>Téléphone</h4>
+                    <small>Téléphone</small>
                     <p><?= htmlspecialchars($user['telephone']) ?></p>
                 </div>
             </div>
 
-            <div class="info-item">
-                <span class="icon">🎓</span>
+            <div class="info-card full">
+                <span>🎓</span>
                 <div>
-                    <h4>Promotion</h4>
+                    <small>Promotion</small>
                     <p><?= htmlspecialchars($user['annee_promotion']) ?></p>
                 </div>
             </div>
         </div>
 
-        <form action="changer_mdp.php" method="get">
-            <button type="submit" class="btn-change-password">Changer le mot de passe</button>
-        </form>
+        <!-- ACTIONS PROFIL -->
+        <div class="profile-actions">
+            <a href="modifier_profil.php" class="btn-outline">
+                Modifier les informations
+            </a>
+            <a href="changer_mdp.php" class="btn-danger">
+                Changer le mot de passe
+            </a>
+        </div>
+
     </div>
 </div>
 
+<!-- JS -->
 <script>
-    document.getElementById('trigger-upload').addEventListener('click', function() {
-        document.getElementById('upload-photo').click();
-    });
+const toggleBtn = document.getElementById('toggle-photo-actions');
+const actionsBox = document.getElementById('photo-edit-buttons');
+const chooseBtn = document.getElementById('choose-photo');
+const fileInput = document.getElementById('upload-photo');
+const confirmBtn = document.getElementById('confirm-upload');
 
-    document.getElementById('upload-photo').addEventListener('change', function() {
-        document.getElementById('upload-btn').style.display = 'block';
-    });
+toggleBtn.addEventListener('click', () => {
+    actionsBox.style.display =
+        actionsBox.style.display === 'flex' ? 'none' : 'flex';
+});
+
+chooseBtn.addEventListener('click', () => {
+    fileInput.click();
+});
+
+fileInput.addEventListener('change', () => {
+    if (fileInput.files.length > 0) {
+        confirmBtn.style.display = 'inline-block';
+    }
+});
 </script>
 
 </body>
