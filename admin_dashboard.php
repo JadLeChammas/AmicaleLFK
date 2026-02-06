@@ -1,45 +1,44 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 require_once 'auth.php';
 requireAdmin();
 require_once 'config.php';
 
-/*
- * $conn doit être une instance PDO
+/**
+ * Compte sécurisé : si la requête échoue → retourne 0
  */
-
-$stats = [
-    'total_users'     => 0,
-    'pending_users'   => 0,
-    'pending_posts'   => 0,
-    'upcoming_events' => 0,
-];
-
-$statsError = null;
-
-try {
-    $stats['total_users'] = (int) $conn
-        ->query("SELECT COUNT(*) FROM membres")
-        ->fetchColumn();
-
-    $stats['pending_users'] = (int) $conn
-        ->query("SELECT COUNT(*) FROM membres WHERE is_approved = 0")
-        ->fetchColumn();
-
-    $stats['pending_posts'] = (int) $conn
-        ->query("SELECT COUNT(*) FROM publications WHERE status = 'pending'")
-        ->fetchColumn();
-
-    $stats['upcoming_events'] = (int) $conn
-        ->query("SELECT COUNT(*) FROM evenements WHERE date_evenement >= CURDATE()")
-        ->fetchColumn();
-
-} catch (Throwable $e) {
-    $statsError = "Impossible de récupérer les statistiques pour le moment.";
+function safeCount(PDO $conn, string $sql): int {
+    try {
+        return (int) $conn->query($sql)->fetchColumn();
+    } catch (Throwable $e) {
+        return 0;
+    }
 }
+
+/* STATISTIQUES */
+$unreadMessages = safeCount(
+    $conn,
+    "SELECT COUNT(*) FROM messages_contact WHERE TRIM(statut) = 'non lu'"
+);
+
+$totalUsers = safeCount(
+    $conn,
+    "SELECT COUNT(*) FROM membres"
+);
+
+$pendingUsers = safeCount(
+    $conn,
+    "SELECT COUNT(*) FROM membres WHERE is_approved = 0"
+);
+
+$pendingPosts = safeCount(
+    $conn,
+    "SELECT COUNT(*) FROM publications WHERE status = 'pending'"
+);
+
+$upcomingEvents = safeCount(
+    $conn,
+    "SELECT COUNT(*) FROM evenements WHERE date_evenement >= CURDATE()"
+);
 ?>
 
 <!DOCTYPE html>
@@ -59,9 +58,7 @@ try {
     <!-- HEADER -->
     <header class="admin-header">
         <a href="index.php" class="back-home">← Retour à l'accueil</a>
-        <div class="admin-header__meta">
-            <span class="admin-badge">Espace sécurisé</span>
-        </div>
+        <span class="admin-badge">Espace sécurisé</span>
     </header>
 
     <!-- HERO -->
@@ -73,36 +70,43 @@ try {
     </section>
 
     <!-- STATS -->
-    <?php if ($statsError): ?>
-        <div class="admin-alert" role="alert">
-            <?= htmlspecialchars($statsError) ?>
-        </div>
-    <?php else: ?>
-        <section class="admin-stats" aria-label="Statistiques clés">
-            <article class="stat-card">
-                <p class="stat-label">Membres inscrits</p>
-                <p class="stat-value"><?= number_format($stats['total_users'], 0, ',', ' ') ?></p>
-            </article>
+    <section class="admin-stats">
 
-            <article class="stat-card">
-                <p class="stat-label">Comptes à valider</p>
-                <p class="stat-value"><?= number_format($stats['pending_users'], 0, ',', ' ') ?></p>
-            </article>
+        <!-- Messages non lus -->
+        <article class="stat-card" onclick="location.href='messages.php'" style="cursor:pointer;">
+            <p class="stat-label">Messages non lus</p>
+            <p class="stat-value" style="color:<?= $unreadMessages > 0 ? 'red' : 'inherit' ?>">
+                <?= $unreadMessages ?>
+            </p>
+        </article>
 
-            <article class="stat-card">
-                <p class="stat-label">Publications en attente</p>
-                <p class="stat-value"><?= number_format($stats['pending_posts'], 0, ',', ' ') ?></p>
-            </article>
+        <article class="stat-card">
+            <p class="stat-label">Membres inscrits</p>
+            <p class="stat-value"><?= $totalUsers ?></p>
+        </article>
 
-            <article class="stat-card">
-                <p class="stat-label">Événements à venir</p>
-                <p class="stat-value"><?= number_format($stats['upcoming_events'], 0, ',', ' ') ?></p>
-            </article>
-        </section>
-    <?php endif; ?>
+        <article class="stat-card" onclick="location.href='admin_approve_users.php'" style="cursor:pointer;">
+            <p class="stat-label">Comptes à valider</p>
+            <p class="stat-value" style="color:<?= $pendingUsers > 0 ? 'red' : 'inherit' ?>">
+                <?= $pendingUsers ?>
+            </p>
+
+        </article>
+
+        <article class="stat-card">
+            <p class="stat-label">Publications en attente</p>
+            <p class="stat-value"><?= $pendingPosts ?></p>
+        </article>
+
+        <article class="stat-card">
+            <p class="stat-label">Événements à venir</p>
+            <p class="stat-value"><?= $upcomingEvents ?></p>
+        </article>
+
+    </section>
 
     <!-- PANELS -->
-    <main class="admin-panels" aria-label="Actions d'administration">
+    <main class="admin-panels">
 
         <!-- Messagerie -->
         <article class="admin-panel">
@@ -113,9 +117,7 @@ try {
                     <p>Consultez et gérez les messages envoyés par les membres ou visiteurs.</p>
                 </div>
             </div>
-            <div class="panel-actions">
-                <a href="messages.php" class="btn">Ouvrir la messagerie</a>
-            </div>
+            <a href="messages.php" class="btn">Ouvrir la messagerie</a>
         </article>
 
         <!-- Publications -->
@@ -124,13 +126,11 @@ try {
                 <span class="panel-icon">📝</span>
                 <div>
                     <h2>Publications</h2>
-                    <p>Validez les nouveaux contenus et gardez le fil d’actualité pertinent.</p>
+                    <p>Validez les nouveaux contenus.</p>
                 </div>
             </div>
-            <div class="panel-actions">
-                <a href="admin_posts.php" class="btn">Valider les publications</a>
-                <a href="admin_manage_posts.php" class="btn btn-danger">Supprimer une publication</a>
-            </div>
+            <a href="admin_posts.php" class="btn">Valider les publications</a>
+            <a href="admin_manage_posts.php" class="btn btn-danger">Supprimer une publication</a>
         </article>
 
         <!-- Événements -->
@@ -139,13 +139,11 @@ try {
                 <span class="panel-icon">📅</span>
                 <div>
                     <h2>Événements</h2>
-                    <p>Planifiez, modifiez et animez les événements communautaires.</p>
+                    <p>Planifiez et gérez les événements.</p>
                 </div>
             </div>
-            <div class="panel-actions">
-                <a href="admin_create_event.php" class="btn">Créer un événement</a>
-                <a href="admin_delete_events.php" class="btn btn-danger">Gérer les événements</a>
-            </div>
+            <a href="admin_create_event.php" class="btn">Créer un événement</a>
+            <a href="admin_delete_events.php" class="btn btn-danger">Gérer les événements</a>
         </article>
 
         <!-- Utilisateurs -->
@@ -154,19 +152,18 @@ try {
                 <span class="panel-icon">👥</span>
                 <div>
                     <h2>Utilisateurs</h2>
-                    <p>Gérez les comptes, rôles et accès des utilisateurs.</p>
+                    <p>Gestion des comptes et rôles.</p>
                 </div>
             </div>
-            <div class="panel-actions">
-                <a href="admin_create_user.php" class="btn">Créer un utilisateur</a>
-                <a href="admin_approve_users.php" class="btn">Valider les inscriptions</a>
-                <a href="admin_assign_roles.php" class="btn">Attribuer des rôles</a>
-                <a href="admin_change_password.php" class="btn">Réinitialiser un mot de passe</a>
-                <a href="admin_manage_users.php" class="btn btn-danger">Supprimer un utilisateur</a>
-            </div>
+            <a href="admin_create_user.php" class="btn">Créer un utilisateur</a>
+            <a href="admin_approve_users.php" class="btn">Valider les inscriptions</a>
+            <a href="admin_assign_roles.php" class="btn">Attribuer des rôles</a>
+            <a href="admin_change_password.php" class="btn">Réinitialiser un mot de passe</a>
+            <a href="admin_manage_users.php" class="btn btn-danger">Supprimer un utilisateur</a>
         </article>
 
     </main>
+
 </div>
 
 </body>
