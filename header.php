@@ -56,7 +56,7 @@ if (session_status() === PHP_SESSION_NONE) {
             <a href="logout.php" class="logout-btn">Déconnexion</a>
         <?php else: ?>
             <a href="signin.php" class="btn">Connexion</a>
-            <a href="choix_rule.php" class="btn">Création de compte</a>
+            <a href="choix_role.php" class="btn">Création de compte</a>
         <?php endif; ?>
     </div>
 

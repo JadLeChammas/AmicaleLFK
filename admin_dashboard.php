@@ -162,6 +162,19 @@ $upcomingEvents = safeCount(
             <a href="admin_manage_users.php" class="btn btn-danger">Supprimer un utilisateur</a>
         </article>
 
+
+        <!-- Admin Logs -->
+        <article class="admin-panel">
+            <div class="panel-header">
+                <span class="panel-icon">📜</span>
+                <div>
+                    <h2>Logs d'administration</h2>
+                    <p>Consultez les actions administratives pour assurer la transparence et la sécurité.</p>
+                </div>
+            </div>
+            <a href="admin_log.php" class="btn">Voir les logs</a>
+        </article>
+
     </main>
 
 </div>

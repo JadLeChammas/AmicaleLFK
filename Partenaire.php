@@ -31,6 +31,18 @@ requireAnyRole(); // accès sécurisé à tous les rôles connectés
         <img src="img/scac.png" alt="Logo scac">
         <h3>Le Service de coopération et d'action culturelle</h3>
     </a>
+
+    <!-- Sponsor 3 -->
+    <a href="https://kw.ambafrance.org/-Cooperation-et-Action-culturelle-" target="_blank" class="sponsor-card">
+        <img src="img/scac.png" alt="Logo scac">
+        <h3>Le Service de coopération et d'action culturelle</h3>
+    </a>
+
+    <!-- Sponsor 4 -->
+    <a href="https://kw.ambafrance.org/-Cooperation-et-Action-culturelle-" target="_blank" class="sponsor-card">
+        <img src="img/scac.png" alt="Logo scac">
+        <h3>Le Service de coopération et d'action culturelle</h3>
+    </a>
 </div>
 
 <?php include 'footer.php'; ?>

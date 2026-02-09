@@ -1,0 +1,80 @@
+body {
+  font-family: system-ui, sans-serif;
+  background:#f4f6f9;
+  margin:0;
+}
+
+.admin-container {
+  max-width:1100px;
+  margin:50px auto;
+  padding:30px;
+  background:#fff;
+  border-radius:16px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.back-home {
+  text-decoration:none;
+  font-weight:600;
+  color:#2271b1;
+}
+
+h1 {
+  margin-top:20px;
+}
+
+.filters {
+  display:flex;
+  gap:12px;
+  margin:20px 0;
+}
+
+.filters input {
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  flex:1;
+}
+
+.filters button {
+  padding:10px 16px;
+  border:none;
+  background:#2271b1;
+  color:#fff;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+table {
+  width:100%;
+  border-collapse:collapse;
+}
+
+th, td {
+  padding:12px;
+  border-bottom:1px solid #eee;
+  text-align:left;
+}
+
+th {
+  background:#f0f2f5;
+}
+
+.pagination {
+  margin-top:20px;
+  display:flex;
+  gap:8px;
+}
+
+.pagination a {
+  padding:8px 12px;
+  border-radius:6px;
+  background:#e9ecef;
+  text-decoration:none;
+  color:#000;
+}
+
+.pagination a.active {
+  background:#2271b1;
+  color:#fff;
+}

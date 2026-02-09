@@ -1,42 +1,66 @@
 <?php
 session_start();
+
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/auth.php';
 requireAdmin(); // 🔐 Admin only
+require_once 'admin_log.php'; // 🔥 LOG ADMIN
 
-// Connexion à la BDD
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 if ($conn->connect_error) {
     die("Connexion échouée : " . $conn->connect_error);
 }
 
-// Vérifie que la requête est bien POST avec un ID valide
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['user_id'])) {
-    $user_id = intval($_POST['user_id']);
+/* Vérification requête */
+if ($_SERVER["REQUEST_METHOD"] !== "POST" || !isset($_POST['user_id'])) {
+    die("⛔ Requête invalide !");
+}
 
-    if ($user_id === 1) {
-        die("⛔ Impossible de supprimer l'administrateur principal !");
-    }
+$user_id = (int) $_POST['user_id'];
 
-    // Préparation et exécution
-    $stmt = $conn->prepare("DELETE FROM membres WHERE id = ?");
-    if (!$stmt) {
-        die("Erreur SQL : " . $conn->error);
-    }
+/* Protection admin principal */
+if ($user_id === 1) {
+    die("⛔ Impossible de supprimer l'administrateur principal !");
+}
 
-    $stmt->bind_param("i", $user_id);
-    $stmt->execute();
+/* 🔍 Récupérer email AVANT suppression pour le log */
+$stmt = $conn->prepare("SELECT email FROM membres WHERE id = ?");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+$stmt->close();
 
-    if ($stmt->affected_rows > 0) {
-        header("Location: admin_manage_users.php?success=Compte supprimé avec succès");
-    } else {
-        header("Location: admin_manage_users.php?error=Aucun compte supprimé");
-    }
+if (!$user) {
+    $conn->close();
+    header("Location: admin_manage_users.php?error=Utilisateur introuvable");
+    exit();
+}
+
+/* 🗑️ SUPPRESSION */
+$stmt = $conn->prepare("DELETE FROM membres WHERE id = ?");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+
+if ($stmt->affected_rows > 0) {
+
+    /* 🔥 LOG ADMIN */
+    logAdminAction(
+        $conn,
+        $_SESSION['user_id'],
+        "Suppression d’un utilisateur",
+        "Utilisateur ID #".$user_id." – ".$user['email']
+    );
 
     $stmt->close();
     $conn->close();
+
+    header("Location: admin_manage_users.php?success=Compte supprimé avec succès");
     exit();
+
 } else {
-    die("⛔ Requête invalide !");
+    $stmt->close();
+    $conn->close();
+    header("Location: admin_manage_users.php?error=Aucun compte supprimé");
+    exit();
 }
-?>

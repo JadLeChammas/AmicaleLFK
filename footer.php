@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="footer-bottom">
-        <p>© 2025 ALFK - Tous droits réservés.</p>
+        <p>© 2026 ALFK - Tous droits réservés.</p>
         <p>Réalisé par le ALFK</p>
     </div>
 </footer>
