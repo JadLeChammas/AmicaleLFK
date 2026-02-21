@@ -10,7 +10,7 @@ if ($conn->connect_error) {
 }
 
 $sql = "SELECT id, nom, prenom, email, telephone, date_naissance, annee_promotion, 
-               preuve_scolarite, etablissement, ville, role 
+               preuve_scolarite, etablissement, ville, sexe, role 
         FROM membres 
         WHERE is_approved = 0";
 $result = $conn->query($sql);
@@ -56,6 +56,7 @@ $result = $conn->query($sql);
                             <th>Ville travail</th>
                             <th>Rôle</th>
                             <th>Action</th>
+                            </th> Civilité</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -76,6 +77,7 @@ $result = $conn->query($sql);
                                 </td>
                                 <td><?= htmlspecialchars($row['etablissement']) ?: '<i>NULL</i>' ?></td>
                                 <td><?= htmlspecialchars($row['ville']) ?: '<i>NULL</i>' ?></td>
+                                <td><?= htmlspecialchars($row['sexe']) ?: '<i>NULL</i>' ?></td> 
                                 <td class="role-badge" data-role="<?= htmlspecialchars($row['role']) ?>"></td>
                                 <td class="actions-cell">
                                     <a class="validate-link" href="approve_user.php?id=<?= $row['id'] ?>">Approuver</a>

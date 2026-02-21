@@ -1,49 +1,40 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-:root {
-    --primary: #334A5A;
-    --accent: #4da3ff;
-    --danger: #e5533d;
-    --bg: #f4f6f8;
-}
-
 * {
     box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                 Roboto, Helvetica, Arial, sans-serif;
 }
 
 body {
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #eef2f7, #f8f9fb);
     margin: 0;
     min-height: 100vh;
+    background: #ffffff;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 }
 
 /* Wrapper */
 .profile-wrapper {
     width: 100%;
-    max-width: 600px;
+    max-width: 420px;
     padding: 20px;
 }
 
 /* Retour accueil */
 .back-home {
     display: block;
+    width: 100%;
     text-align: center;
-    margin-bottom: 20px;
-    font-weight: 500;
-    color: var(--primary);
-    text-decoration: none;
+    margin-bottom: 18px;
+    font-size: 16px;
+    color: #000;
+    text-decoration: underline;
 }
 
-/* Carte */
+/* Carte principale */
 .profile-card {
-    background: rgba(255,255,255,0.96);
-    border-radius: 20px;
-    padding: 35px;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.08);
+    background: #fff;
+    border-radius: 10px;
 }
 
 /* Header */
@@ -53,12 +44,12 @@ body {
 
 /* Avatar */
 .avatar-wrapper {
-    width: 130px;
-    height: 130px;
-    margin: 0 auto 15px;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 16px;
     border-radius: 50%;
     overflow: hidden;
-    border: 4px solid var(--primary);
+    border: 2px solid #d0d7de;
 }
 
 .avatar-wrapper img {
@@ -67,143 +58,122 @@ body {
     object-fit: cover;
 }
 
-.avatar-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-weight: 600;
-    color: #6b7a88;
-    font-size: 16px;
-    line-height: 1.2;
+/* Nom */
+.profile-header h2 {
+    margin: 10px 0 18px;
+    font-size: 22px;
+    font-weight: 700;
 }
 
-h2 {
-    margin: 10px 0 15px;
-}
-
-/* Photo actions */
+/* Actions photo */
 .photo-actions {
-    margin-bottom: 20px;
+    margin-bottom: 26px;
 }
 
 .photo-edit-buttons {
     display: none;
     justify-content: center;
     gap: 10px;
-    margin-top: 10px;
+    margin-top: 12px;
 }
 
-/* Grid infos */
+/* Infos */
 .profile-info-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
 }
 
+/* Carte info */
 .info-card {
-    background: var(--bg);
-    border-radius: 14px;
-    padding: 14px;
+    background: #eef4ff;
+    border-radius: 8px;
+    padding: 14px 16px;
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
 .info-card span {
-    font-size: 22px;
+    font-size: 20px;
 }
 
 .info-card small {
     font-size: 12px;
-    color: #777;
+    color: #666;
 }
 
 .info-card p {
     margin: 2px 0 0;
     font-weight: 600;
-}
-
-.info-card.full {
-    grid-column: span 2;
+    font-size: 14px;
 }
 
 /* Boutons */
 .btn-outline {
-    border: 2px solid var(--primary);
+    border: 2px solid #1f1f1f;
     background: none;
-    color: var(--primary);
-    padding: 9px 16px;
-    border-radius: 10px;
+    color: #1f1f1f;
+    padding: 12px;
+    border-radius: 8px;
     cursor: pointer;
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
 }
 
 .btn-outline:hover {
-    background: var(--primary);
-    color: white;
+    background: #1f1f1f;
+    color: #fff;
 }
 
 .btn-primary {
-    background: var(--accent);
-    color: white;
+    background: #1f1f1f;
+    color: #fff;
     border: none;
-    padding: 9px 16px;
-    border-radius: 10px;
+    padding: 12px;
+    border-radius: 8px;
     cursor: pointer;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .btn-danger {
-    background: var(--danger);
-    color: white;
+    background: #e5533d;
+    color: #fff;
     padding: 12px;
-    border-radius: 12px;
+    border-radius: 8px;
     text-decoration: none;
     text-align: center;
     font-weight: 600;
 }
 
+.btn-danger:hover {
+    background: #c4412e; /* rouge un peu plus foncé */
+}
+
 .btn-danger-outline {
-    border: 2px solid var(--danger);
-    color: var(--danger);
+    border: 2px solid #ff2200;
+    color: #cc1b00;
     background: none;
-    padding: 9px 16px;
-    border-radius: 10px;
-    text-decoration: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
 }
 
 .btn-danger-outline:hover {
-    background: var(--danger);
-    color: white;
+    background: #cc1b00;
+    color: #fff;
 }
 
 /* Actions bas */
 .profile-actions {
     display: flex;
-    gap: 15px;
-    margin-top: 30px;
+    gap: 14px;
+    margin-top: 26px;
 }
 
 .profile-actions a {
     flex: 1;
     text-align: center;
-}
-
-/* Responsive */
-@media (max-width: 520px) {
-    .profile-info-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .info-card.full {
-        grid-column: span 1;
-    }
-
-    .profile-actions {
-        flex-direction: column;
-    }
 }

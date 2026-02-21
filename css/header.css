@@ -1,4 +1,4 @@
-/* IMPORTANT: neutralize modern.css effects */
+/* RESET */
 .desktop-header,
 .desktop-header * {
     box-sizing: border-box;
@@ -8,26 +8,31 @@
 
 /* ===== HEADER ===== */
 .desktop-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     height: 90px;
-    padding: 0 50px;
+    padding: 0 40px;
+
     background-color: #ffffff;
-    border-bottom: 2px solid #ddd;
-    font-family: Arial, sans-serif;
+    border-bottom: 1px solid #e0e0e0;
 }
 
 /* ===== LEFT ===== */
 .header-left {
     display: flex;
     align-items: center;
-    gap: 50px;
+    gap: 40px;
 }
 
 /* ===== LOGO ===== */
 .logo img {
-    height: 110px;
+    height: 80px; /* IMPORTANT */
     display: block;
 }
 
@@ -35,58 +40,78 @@
 .main-nav {
     display: flex;
     align-items: center;
-    gap: 25px;
+    gap: 22px;
 }
 
 .main-nav a {
-    text-decoration: none !important;
-    color: #334A5A !important;
+    text-decoration: none;
+    color: #334A5A;
     font-weight: 600;
-    font-size: 16px;
-}
-
-.main-nav a:hover {
-    color: #1e2f3a !important;
+    font-size: 15px;
 }
 
 /* ===== RIGHT ===== */
 .header-right {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
 }
 
-/* ===== USER BOX ===== */
-.user-box {
-    background-color: #334A5A;
-    padding: 10px 16px;
-    border-radius: 10px;
-}
-
-.user-box a {
-    color: #ffffff !important;
-    text-decoration: none !important;
-    font-weight: bold;
-}
-
-/* ===== BUTTONS ===== */
+/* ===== BOUTONS ===== */
 .btn,
 .logout-btn,
 .admin-link {
-    padding: 10px 18px;
-    background-color: #334A5A;
-    color: #ffffff !important;
-    text-decoration: none !important;
-    border-radius: 6px;
-    font-weight: bold;
+    background-color: #1f1f1f;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, transform 0.15s ease;
 }
 
 .btn:hover,
-.logout-btn:hover {
-    background-color: #1e2f3a;
+.logout-btn:hover,
+.admin-link:hover {
+    background-color: #000;
+    transform: translateY(-1px);
 }
 
-.admin-link {
-    background-color: #CCB5A5;
-    color: #000 !important;
+/* ===== PROFIL ===== */
+.user-box {
+    background-color: #1f1f1f;
+    padding: 10px 18px;
+    border-radius: 999px;
+}
+
+.user-box a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* ===== FORCE SAME STYLE FOR ALL HEADER BUTTONS ===== */
+.header-right a {
+    background-color: #1f1f1f !important;
+    color: #ffffff !important;
+    padding: 10px 22px;
+    border-radius: 999px;
+    text-decoration: none !important;
+    font-weight: 600;
+    font-size: 14px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.header-right a:hover {
+    background-color: #000 !important;
+    transform: translateY(-1px);
 }

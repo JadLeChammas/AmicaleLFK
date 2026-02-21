@@ -21,6 +21,12 @@
                 <button type="submit" formaction="signup.php">Alumni LFK</button>
                 <button type="submit" formaction="signup_eleve.php">Élève LFK</button>
             </div>
+            <div class="divider">OU</div>
+
+            <div class="register">
+                Vous avez déjà un compte ?
+                <a href="signin.php">Se connecter</a>
+              </div>
         </form>
     </div>
 </div>

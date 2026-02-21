@@ -172,7 +172,7 @@ $upcomingEvents = safeCount(
                     <p>Consultez les actions administratives pour assurer la transparence et la sécurité.</p>
                 </div>
             </div>
-            <a href="admin_log.php" class="btn">Voir les logs</a>
+            <a href="admin_logs.php" class="btn">Voir les logs</a>
         </article>
 
     </main>

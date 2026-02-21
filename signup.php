@@ -15,56 +15,80 @@ if ($conn->connect_error) {
 $success = "";
 $error = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nom = strtoupper(trim($_POST['nom']));
-    $prenom = ucfirst(strtolower(trim($_POST['prenom'])));
-    $email = trim($_POST['email']);
-    $indicatif = trim($_POST['indicatif']);
-    $telephone_local = trim($_POST['telephone_local']);
-    $telephone = $indicatif . $telephone_local;
-    $password = $_POST['password'];
-    $confirm_password = $_POST['confirm_password'];
-    $date_naissance = $_POST['date_naissance'];
-    $annee_promotion = trim($_POST['annee_promotion']);
-    $etablissement = trim($_POST['etablissement']);
-    $ville = trim($_POST['ville']);
-    $pays = isset($_POST['pays']) ? trim($_POST['pays']) : '';
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
+    $nom    = strtoupper(trim($_POST['nom']));
+    $prenom = ucfirst(strtolower(trim($_POST['prenom'])));
+    $sexe   = $_POST['sexe'] ?? '';   // H ou F
+    $email  = trim($_POST['email']);
+
+    $indicatif        = trim($_POST['indicatif']);
+    $telephone_local  = trim($_POST['telephone_local']);
+    $telephone        = $indicatif . $telephone_local;
+
+    $password         = $_POST['password'];
+    $confirm_password = $_POST['confirm_password'];
+
+    $date_naissance   = $_POST['date_naissance'];
+    $annee_promotion  = trim($_POST['annee_promotion']);
+    $etablissement    = trim($_POST['etablissement']);
+    $ville            = trim($_POST['ville']);
+    $pays             = trim($_POST['pays'] ?? '');
+
+    /* ==========================
+       Validation civilité
+       ========================== */
+    if (!in_array($sexe, ['H', 'F'])) {
+        $error = "Veuillez sélectionner Monsieur ou Madame.";
+    }
+
+    /* ==========================
+       Upload preuve scolarité
+       ========================== */
     $preuve_scolarite = '';
     $maxFileSize = 5 * 1024 * 1024;
     $allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg'];
 
-    if (isset($_FILES['preuve_scolarite']) && $_FILES['preuve_scolarite']['error'] === UPLOAD_ERR_OK) {
-        $file_tmp = $_FILES['preuve_scolarite']['tmp_name'];
-        $file_name = basename($_FILES['preuve_scolarite']['name']);
-        $file_size = $_FILES['preuve_scolarite']['size'];
-        $file_type = mime_content_type($file_tmp);
+    if (empty($error)) {
+        if (isset($_FILES['preuve_scolarite']) && $_FILES['preuve_scolarite']['error'] === UPLOAD_ERR_OK) {
 
-        if (!in_array($file_type, $allowedTypes)) {
-            $error = "Format de fichier non autorisé. Seuls PDF, JPG, PNG sont acceptés.";
-        } elseif ($file_size > $maxFileSize) {
-            $error = "Fichier trop volumineux (max 5 Mo).";
-        } else {
-            $upload_dir = 'uploads-proof/';
-            if (!is_dir($upload_dir)) {
-                mkdir($upload_dir, 0777, true);
-            }
-            $target_path = $upload_dir . uniqid() . "_" . $file_name;
+            $file_tmp  = $_FILES['preuve_scolarite']['tmp_name'];
+            $file_name = basename($_FILES['preuve_scolarite']['name']);
+            $file_size = $_FILES['preuve_scolarite']['size'];
+            $file_type = mime_content_type($file_tmp);
 
-            if (move_uploaded_file($file_tmp, $target_path)) {
-                $preuve_scolarite = $target_path;
+            if (!in_array($file_type, $allowedTypes)) {
+                $error = "Format de fichier non autorisé (PDF, JPG, PNG).";
+            } elseif ($file_size > $maxFileSize) {
+                $error = "Fichier trop volumineux (5 Mo max).";
             } else {
-                $error = "Erreur lors de l'envoi du fichier.";
+                $upload_dir = 'uploads-proof/';
+                if (!is_dir($upload_dir)) {
+                    mkdir($upload_dir, 0777, true);
+                }
+
+                $target_path = $upload_dir . uniqid() . "_" . $file_name;
+
+                if (move_uploaded_file($file_tmp, $target_path)) {
+                    $preuve_scolarite = $target_path;
+                } else {
+                    $error = "Erreur lors de l'envoi du fichier.";
+                }
             }
+        } else {
+            $error = "Veuillez joindre une preuve de scolarité.";
         }
-    } else {
-        $error = "Veuillez joindre une preuve de scolarité.";
     }
 
+    /* ==========================
+       Validation mots de passe + email
+       ========================== */
     if (empty($error)) {
+
         if ($password !== $confirm_password) {
             $error = "Les mots de passe ne correspondent pas.";
         } else {
+
             $sql = "SELECT id FROM membres WHERE email = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("s", $email);
@@ -74,12 +98,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($stmt->num_rows > 0) {
                 $error = "Cet email est déjà utilisé.";
             } else {
+
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                $sql = "INSERT INTO membres 
-                    (nom, prenom, email, telephone, password, role, date_naissance, annee_promotion, preuve_scolarite, etablissement, ville, pays) 
-                    VALUES (?, ?, ?, ?, ?, 'user', ?, ?, ?, ?, ?, ?)";
+
+                $sql = "INSERT INTO membres
+                    (nom, prenom, email, telephone, password, role,
+                     date_naissance, annee_promotion, preuve_scolarite,
+                     etablissement, ville, pays, sexe)
+                    VALUES (?, ?, ?, ?, ?, 'user', ?, ?, ?, ?, ?, ?, ?)";
+
                 $stmt = $conn->prepare($sql);
-                $stmt->bind_param("sssssssssss", $nom, $prenom, $email, $telephone, $hashed_password, $date_naissance, $annee_promotion, $preuve_scolarite, $etablissement, $ville, $pays);
+                $stmt->bind_param(
+                    "ssssssssssss",
+                    $nom,
+                    $prenom,
+                    $email,
+                    $telephone,
+                    $hashed_password,
+                    $date_naissance,
+                    $annee_promotion,
+                    $preuve_scolarite,
+                    $etablissement,
+                    $ville,
+                    $pays
+                    $sexe,          // H ou F
+                );
 
                 if ($stmt->execute()) {
                     $success = "Compte créé avec succès ! <a href='signin.php'>Se connecter</a>";
@@ -91,6 +134,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
+
 $conn->close();
 ?>
 
@@ -101,19 +145,6 @@ $conn->close();
     <title>Inscription</title>
     <link rel="stylesheet" href="css/signup.css">
     <link rel="icon" type="image/png" href="/img/lfk.png">
-    <style>
-        .return-link {
-            text-align: center;
-            margin-bottom: 25px;
-            display: block;
-            font-weight: bold;
-            color: #334A5A;
-            text-decoration: none;
-        }
-        .return-link:hover {
-            text-decoration: underline;
-        }
-    </style>
     <script>
         function onlyNumbers(evt) {
             const charCode = evt.which ? evt.which : evt.keyCode;
@@ -125,63 +156,231 @@ $conn->close();
 </head>
 <body>
 
-<a href="choix_role.php" class="return-link">← Retour</a>
+<a href="choix_role.php" class="return-link">← Retour à l'accueil</a>
 
 <div class="form-wrapper">
     <div class="form-box">
+
         <form class="form" action="signup.php" method="POST" enctype="multipart/form-data">
+
             <span class="title">Créer un compte</span>
 
             <?php if ($error): ?>
-                <p style="color: red; text-align: center;"><?= htmlspecialchars($error); ?></p>
+                <p style="color:red;text-align:center"><?= htmlspecialchars($error) ?></p>
             <?php endif; ?>
+
             <?php if ($success): ?>
-                <p style="color: green; text-align: center;"><?= $success; ?></p>
+                <p style="color:green;text-align:center"><?= $success ?></p>
             <?php endif; ?>
 
             <div class="form-container">
+
                 <input type="text" name="nom" class="input" placeholder="Nom" required>
                 <input type="text" name="prenom" class="input" placeholder="Prénom" required>
+
+                <!-- Civilité -->
+                <select name="sexe" class="input" required>
+                    <option value="">-- Civilité --</option>
+                    <option value="H">Monsieur</option>
+                    <option value="F">Madame</option>
+                </select>
+
                 <input type="email" name="email" class="input" placeholder="Email" required>
 
                 <div class="telephone-group">
                     <div class="telephone-row">
-                        <select name="indicatif" required class="select-indicatif input">
-                            <?php
-                            $indicatifs = [
-                                ['🇫🇷', '+33'], ['🇦🇫', '+93'], ['🇦🇱', '+355'], ['🇩🇿', '+213'], ['🇦🇴', '+244'], ['🇦🇷', '+54'], ['🇦🇲', '+374'], ['🇦🇺', '+61'], ['🇦🇹', '+43'], ['🇦🇿', '+994'],
-                                ['🇧🇭', '+973'], ['🇧🇩', '+880'], ['🇧🇾', '+375'], ['🇧🇪', '+32'], ['🇧🇯', '+229'], ['🇧🇴', '+591'], ['🇧🇦', '+387'], ['🇧🇼', '+267'], ['🇧🇷', '+55'],
-                                ['🇧🇳', '+673'], ['🇧🇬', '+359'], ['🇰🇭', '+855'], ['🇨🇲', '+237'], ['🇨🇦', '+1'], ['🇨🇫', '+236'], ['🇹🇩', '+235'], ['🇨🇱', '+56'], ['🇨🇳', '+86'],
-                                ['🇨🇴', '+57'], ['🇨🇷', '+506'], ['🇭🇷', '+385'], ['🇨🇺', '+53'], ['🇨🇾', '+357'], ['🇨🇿', '+420'], ['🇩🇰', '+45'], ['🇩🇯', '+253'], ['🇩🇴', '+1-809'],
-                                ['🇪🇨', '+593'], ['🇪🇬', '+20'], ['🇸🇻', '+503'], ['🇬🇶', '+240'], ['🇪🇷', '+291'], ['🇪🇪', '+372'], ['🇪🇹', '+251'], ['🇫🇯', '+679'], ['🇫🇮', '+358'],
-                                ['🇬🇦', '+241'], ['🇬🇲', '+220'], ['🇬🇪', '+995'], ['🇩🇪', '+49'], ['🇬🇭', '+233'], ['🇬🇷', '+30'], ['🇬🇹', '+502'], ['🇬🇳', '+224'],
-                                ['🇭🇹', '+509'], ['🇭🇳', '+504'], ['🇭🇺', '+36'], ['🇮🇸', '+354'], ['🇮🇳', '+91'], ['🇮🇩', '+62'], ['🇮🇷', '+98'], ['🇮🇶', '+964'], ['🇮🇪', '+353'],
-                                ['🇮🇱', '+972'], ['🇮🇹', '+39'], ['🇯🇲', '+1-876'], ['🇯🇵', '+81'], ['🇯🇴', '+962'], ['🇰🇿', '+7'], ['🇰🇪', '+254'], ['🇰🇼', '+965'], ['🇱🇧', '+961'],
-                                ['🇱🇷', '+231'], ['🇱🇾', '+218'], ['🇱🇹', '+370'], ['🇱🇺', '+352'], ['🇲🇬', '+261'], ['🇲🇼', '+265'], ['🇲🇾', '+60'], ['🇲🇻', '+960'], ['🇲🇱', '+223'],
-                                ['🇲🇹', '+356'], ['🇲🇷', '+222'], ['🇲🇺', '+230'], ['🇲🇽', '+52'], ['🇲🇩', '+373'], ['🇲🇳', '+976'], ['🇲🇪', '+382'], ['🇲🇦', '+212'], ['🇲🇿', '+258'],
-                                ['🇳🇦', '+264'], ['🇳🇵', '+977'], ['🇳🇱', '+31'], ['🇳🇿', '+64'], ['🇳🇮', '+505'], ['🇳🇪', '+227'], ['🇳🇬', '+234'], ['🇰🇵', '+850'], ['🇲🇰', '+389'],
-                                ['🇳🇴', '+47'], ['🇴🇲', '+968'], ['🇵🇰', '+92'], ['🇵🇸', '+970'], ['🇵🇦', '+507'], ['🇵🇾', '+595'], ['🇵🇪', '+51'], ['🇵🇭', '+63'], ['🇵🇱', '+48'],
-                                ['🇵🇹', '+351'], ['🇶🇦', '+974'], ['🇷🇴', '+40'], ['🇷🇺', '+7'], ['🇷🇼', '+250'], ['🇸🇦', '+966'], ['🇸🇳', '+221'], ['🇷🇸', '+381'], ['🇸🇨', '+248'],
-                                ['🇸🇱', '+232'], ['🇸🇬', '+65'], ['🇸🇰', '+421'], ['🇸🇮', '+386'], ['🇿🇦', '+27'], ['🇰🇷', '+82'], ['🇸🇸', '+211'], ['🇪🇸', '+34'], ['🇱🇰', '+94'],
-                                ['🇸🇩', '+249'], ['🇸🇷', '+597'], ['🇸🇿', '+268'], ['🇸🇪', '+46'], ['🇨🇭', '+41'], ['🇸🇾', '+963'], ['🇹🇼', '+886'], ['🇹🇯', '+992'], ['🇹🇿', '+255'],
-                                ['🇹🇭', '+66'], ['🇹🇬', '+228'], ['🇹🇳', '+216'], ['🇹🇷', '+90'], ['🇹🇲', '+993'], ['🇺🇬', '+256'], ['🇺🇦', '+380'], ['🇦🇪', '+971'], ['🇬🇧', '+44'],
-                                ['🇺🇸', '+1'], ['🇺🇾', '+598'], ['🇺🇿', '+998'], ['🇻🇪', '+58'], ['🇻🇳', '+84'], ['🇾🇪', '+967'], ['🇿🇲', '+260'], ['🇿🇼', '+263']
-                            ];
-                            foreach ($indicatifs as $item) {
-                                echo "<option value=\"{$item[1]}\">{$item[0]} {$item[1]}</option>";
-                            }
-                            ?>
+                        <select name="indicatif" class="select-indicatif input" required>
+                            <option value="+33">🇫🇷 +33</option>
+<option value="+93">🇦🇫 +93</option>
+<option value="+355">🇦🇱 +355</option>
+<option value="+213">🇩🇿 +213</option>
+<option value="+244">🇦🇴 +244</option>
+<option value="+54">🇦🇷 +54</option>
+<option value="+374">🇦🇲 +374</option>
+<option value="+61">🇦🇺 +61</option>
+<option value="+43">🇦🇹 +43</option>
+<option value="+994">🇦🇿 +994</option>
+
+<option value="+973">🇧🇭 +973</option>
+<option value="+880">🇧🇩 +880</option>
+<option value="+375">🇧🇾 +375</option>
+<option value="+32">🇧🇪 +32</option>
+<option value="+229">🇧🇯 +229</option>
+<option value="+591">🇧🇴 +591</option>
+<option value="+387">🇧🇦 +387</option>
+<option value="+267">🇧🇼 +267</option>
+<option value="+55">🇧🇷 +55</option>
+
+<option value="+673">🇧🇳 +673</option>
+<option value="+359">🇧🇬 +359</option>
+<option value="+855">🇰🇭 +855</option>
+<option value="+237">🇨🇲 +237</option>
+<option value="+1">🇨🇦 +1</option>
+<option value="+236">🇨🇫 +236</option>
+<option value="+235">🇹🇩 +235</option>
+<option value="+56">🇨🇱 +56</option>
+<option value="+86">🇨🇳 +86</option>
+
+<option value="+57">🇨🇴 +57</option>
+<option value="+506">🇨🇷 +506</option>
+<option value="+385">🇭🇷 +385</option>
+<option value="+53">🇨🇺 +53</option>
+<option value="+357">🇨🇾 +357</option>
+<option value="+420">🇨🇿 +420</option>
+<option value="+45">🇩🇰 +45</option>
+<option value="+253">🇩🇯 +253</option>
+<option value="+1-809">🇩🇴 +1-809</option>
+
+<option value="+593">🇪🇨 +593</option>
+<option value="+20">🇪🇬 +20</option>
+<option value="+503">🇸🇻 +503</option>
+<option value="+240">🇬🇶 +240</option>
+<option value="+291">🇪🇷 +291</option>
+<option value="+372">🇪🇪 +372</option>
+<option value="+251">🇪🇹 +251</option>
+<option value="+679">🇫🇯 +679</option>
+<option value="+358">🇫🇮 +358</option>
+
+<option value="+241">🇬🇦 +241</option>
+<option value="+220">🇬🇲 +220</option>
+<option value="+995">🇬🇪 +995</option>
+<option value="+49">🇩🇪 +49</option>
+<option value="+233">🇬🇭 +233</option>
+<option value="+30">🇬🇷 +30</option>
+<option value="+502">🇬🇹 +502</option>
+<option value="+224">🇬🇳 +224</option>
+
+<option value="+509">🇭🇹 +509</option>
+<option value="+504">🇭🇳 +504</option>
+<option value="+36">🇭🇺 +36</option>
+<option value="+354">🇮🇸 +354</option>
+<option value="+91">🇮🇳 +91</option>
+<option value="+62">🇮🇩 +62</option>
+<option value="+98">🇮🇷 +98</option>
+<option value="+964">🇮🇶 +964</option>
+<option value="+353">🇮🇪 +353</option>
+
+<option value="+972">🇮🇱 +972</option>
+<option value="+39">🇮🇹 +39</option>
+<option value="+1-876">🇯🇲 +1-876</option>
+<option value="+81">🇯🇵 +81</option>
+<option value="+962">🇯🇴 +962</option>
+<option value="+7">🇰🇿 +7</option>
+<option value="+254">🇰🇪 +254</option>
+<option value="+965">🇰🇼 +965</option>
+<option value="+961">🇱🇧 +961</option>
+
+<option value="+231">🇱🇷 +231</option>
+<option value="+218">🇱🇾 +218</option>
+<option value="+370">🇱🇹 +370</option>
+<option value="+352">🇱🇺 +352</option>
+<option value="+261">🇲🇬 +261</option>
+<option value="+265">🇲🇼 +265</option>
+<option value="+60">🇲🇾 +60</option>
+<option value="+960">🇲🇻 +960</option>
+<option value="+223">🇲🇱 +223</option>
+
+<option value="+356">🇲🇹 +356</option>
+<option value="+222">🇲🇷 +222</option>
+<option value="+230">🇲🇺 +230</option>
+<option value="+52">🇲🇽 +52</option>
+<option value="+373">🇲🇩 +373</option>
+<option value="+976">🇲🇳 +976</option>
+<option value="+382">🇲🇪 +382</option>
+<option value="+212">🇲🇦 +212</option>
+<option value="+258">🇲🇿 +258</option>
+
+<option value="+264">🇳🇦 +264</option>
+<option value="+977">🇳🇵 +977</option>
+<option value="+31">🇳🇱 +31</option>
+<option value="+64">🇳🇿 +64</option>
+<option value="+505">🇳🇮 +505</option>
+<option value="+227">🇳🇪 +227</option>
+<option value="+234">🇳🇬 +234</option>
+<option value="+850">🇰🇵 +850</option>
+<option value="+389">🇲🇰 +389</option>
+
+<option value="+47">🇳🇴 +47</option>
+<option value="+968">🇴🇲 +968</option>
+<option value="+92">🇵🇰 +92</option>
+<option value="+970">🇵🇸 +970</option>
+<option value="+507">🇵🇦 +507</option>
+<option value="+595">🇵🇾 +595</option>
+<option value="+51">🇵🇪 +51</option>
+<option value="+63">🇵🇭 +63</option>
+<option value="+48">🇵🇱 +48</option>
+
+<option value="+351">🇵🇹 +351</option>
+<option value="+974">🇶🇦 +974</option>
+<option value="+40">🇷🇴 +40</option>
+<option value="+7">🇷🇺 +7</option>
+<option value="+250">🇷🇼 +250</option>
+<option value="+966">🇸🇦 +966</option>
+<option value="+221">🇸🇳 +221</option>
+<option value="+381">🇷🇸 +381</option>
+<option value="+248">🇸🇨 +248</option>
+
+<option value="+232">🇸🇱 +232</option>
+<option value="+65">🇸🇬 +65</option>
+<option value="+421">🇸🇰 +421</option>
+<option value="+386">🇸🇮 +386</option>
+<option value="+27">🇿🇦 +27</option>
+<option value="+82">🇰🇷 +82</option>
+<option value="+211">🇸🇸 +211</option>
+<option value="+34">🇪🇸 +34</option>
+<option value="+94">🇱🇰 +94</option>
+
+<option value="+249">🇸🇩 +249</option>
+<option value="+597">🇸🇷 +597</option>
+<option value="+268">🇸🇿 +268</option>
+<option value="+46">🇸🇪 +46</option>
+<option value="+41">🇨🇭 +41</option>
+<option value="+963">🇸🇾 +963</option>
+<option value="+886">🇹🇼 +886</option>
+<option value="+992">🇹🇯 +992</option>
+<option value="+255">🇹🇿 +255</option>
+
+<option value="+66">🇹🇭 +66</option>
+<option value="+228">🇹🇬 +228</option>
+<option value="+216">🇹🇳 +216</option>
+<option value="+90">🇹🇷 +90</option>
+<option value="+993">🇹🇲 +993</option>
+<option value="+256">🇺🇬 +256</option>
+<option value="+380">🇺🇦 +380</option>
+<option value="+971">🇦🇪 +971</option>
+<option value="+44">🇬🇧 +44</option>
+
+<option value="+1">🇺🇸 +1</option>
+<option value="+598">🇺🇾 +598</option>
+<option value="+998">🇺🇿 +998</option>
+<option value="+58">🇻🇪 +58</option>
+<option value="+84">🇻🇳 +84</option>
+<option value="+967">🇾🇪 +967</option>
+<option value="+260">🇿🇲 +260</option>
+<option value="+263">🇿🇼 +263</option>
+
                         </select>
-                        <input type="text" name="telephone_local" class="input" placeholder="Numéro" required onkeypress="onlyNumbers(event)" maxlength="15">
+                        <input type="text"
+                               name="telephone_local"
+                               class="input"
+                               placeholder="Numéro"
+                               required
+                               onkeypress="onlyNumbers(event)"
+                               maxlength="15">
                     </div>
                 </div>
-                <label for="date_naissance">Date de naissance</label>
-                <input type="date" id="date_naissance" name="date_naissance" required>
-                <input type="text" name="annee_promotion" class="input" placeholder="Année de promotion" required>
+
+                <label>Date de naissance</label>
+                <input type="date" name="date_naissance" required>
+
+                <input type="text" name="annee_promotion" class="input"
+                       placeholder="Année de promotion" required>
 
                 <label>Preuve de scolarité (PDF ou image)</label>
-                <input type="file" name="preuve_scolarite" class="input" accept=".pdf,.jpg,.jpeg,.png" required>
-                <select name="pays" required class="input" required>
+                <input type="file" name="preuve_scolarite"
+                       class="input" accept=".pdf,.jpg,.jpeg,.png" required>
+
+                <select name="pays" class="input" required> 
     <option value="">-- Sélectionnez votre pays de résidence --</option>
     <option value="Afghanistan">Afghanistan</option>
     <option value="Afrique du Sud">Afrique du Sud</option>
@@ -373,21 +572,28 @@ $conn->close();
     <option value="Yémen">Yémen</option>
     <option value="Zambie">Zambie</option>
     <option value="Zimbabwe">Zimbabwe</option>
-</select>
-                <input type="text" name="ville" class="input" placeholder="Ville "required>
-                <input type="text" name="etablissement" class="input" placeholder="établissement d’études supérieures"required>
+                </select>
+
+                <input type="text" name="ville" class="input" placeholder="Ville" required>
+                <input type="text" name="etablissement" class="input"
+                       placeholder="Établissement d’études supérieures" required>
+
                 <input type="password" name="password" class="input" placeholder="Mot de passe" required>
-                <input type="password" name="confirm_password" class="input" placeholder="Confirmer le mot de passe" required>
+                <input type="password" name="confirm_password" class="input"
+                       placeholder="Confirmer le mot de passe" required>
+
             </div>
 
             <button type="submit">S'inscrire</button>
+
         </form>
 
         <div class="form-section">
             <p>Déjà un compte ? <a href="signin.php">Se connecter</a></p>
         </div>
+
     </div>
 </div>
 
 </body>
-</html>                            
+</html>

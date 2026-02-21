@@ -7,7 +7,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 50px;
+    padding: 15px 40px;
     background-color: #f1f1f1;
     border-top: 2px solid #ddd;
 }
@@ -125,9 +125,9 @@
 
 .footer-bottom {
     text-align: center;
-    padding: 10px;
+    padding: 1px;
     background-color: #ddd;
-    border-top: 1px solid #ccc;
+    border-top: 0px solid #ccc;
 }
 
 /* ==========================

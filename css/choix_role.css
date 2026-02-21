@@ -1,97 +1,121 @@
-@import url("modern.css");
-/* ==========================
-   BASE & GLOBAL
-   ========================== */
-
-   body {
-    font-family: var(--font-family);
-    background-color: #f8f9fa;
-    text-align: center;
-    margin: 0;
-    padding: 0;
+* {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont,
+                 "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
-/* ==========================
-   LIEN RETOUR CENTRÉ
-   ========================== */
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 
+/* Retour accueil */
 .back-home-wrapper {
+    width: 100%;
     text-align: center;
-    margin-top: 30px;
-    margin-bottom: 20px; /* espace entre le lien et la boîte */
+    margin-bottom: 18px;
 }
 
 .back-home {
-    color: #334A5A;
-    font-weight: bold;
-    text-decoration: none;
     font-size: 16px;
+    color: #000;
+    text-decoration: none;
 }
 
 .back-home:hover {
     text-decoration: underline;
 }
 
-/* ==========================
-   CONTAINER DU FORMULAIRE
-   ========================== */
-
-.form-wrapper {
+/* Divider */
+.divider {
     display: flex;
-    justify-content: center;
-    align-items: flex-start; /* on aligne en haut, pas centré verticalement */
-    min-height: calc(100vh - 80px); /* permet de garder une belle hauteur */
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+    color: #999;
+    font-size: 13px;
 }
 
-.form-box {
-    background: white;
-    padding: 40px;
-    border-radius: 20px;
+.divider::before,
+.divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #e5e7eb;
+}
+
+/* Wrapper */
+.form-wrapper {
     width: 100%;
-    max-width: 400px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    margin: 0 auto;
+    max-width: 420px;
+    padding: 20px;
 }
 
-.title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    display: block;
+/* Box */
+.form-box {
+    background: #fff;
+    border-radius: 10px;
+    padding: 30px;
 }
 
-/* ==========================
-   FORMULAIRE
-   ========================== */
-
+/* Form */
 .form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
 }
 
+/* Title */
+.title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+/* Buttons container */
 .form-container {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 14px;
 }
 
-/* ==========================
-   BOUTONS
-   ========================== */
-
+/* Buttons */
 button {
-    padding: 12px;
-    font-size: 16px;
-    background-color: #334A5A;
-    color: white;
+    padding: 14px;
     border: none;
-    border-radius: 30px;
+    border-radius: 8px;
+    background: #1f1f1f;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-weight: bold;
 }
 
 button:hover {
-    background-color: #1e2f3a;
+    background: #000;
+    transform: translateY(-1px);
+}
+
+/* Register link */
+.register {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 16px;
+}
+
+.register a {
+    color: #000;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+/* Error message */
+.form p {
+    margin-bottom: 10px;
+    font-size: 14px;
 }
