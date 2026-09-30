@@ -1,11 +1,11 @@
 import { Feather } from '@expo/vector-icons';
 import { Image } from 'expo-image';
-import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { ScrollView, View } from 'react-native';
 
 import { DateBadge } from '@/components/cards';
-import { Avatar, Badge, Button, Card, MetaLine, Row, SectionHeader, Tap, type IconName } from '@/components/ui/primitives';
+import { GlobeCard, StatsRow, useDestinationMarkers } from '@/components/site/blocks';
+import { Avatar, Badge, Button, Card, CountBadge, MetaLine, Row, SectionHeader, Tap, type IconName } from '@/components/ui/primitives';
 import { Grid, Screen } from '@/components/ui/Screen';
 import { Txt } from '@/components/ui/Txt';
 import { COUNTRIES } from '@/data/countries';
@@ -13,16 +13,12 @@ import { can } from '@/data/permissions';
 import { fullName, useApprovedMembers, useInbox, useMe, useStore, useUpcomingBirthdays } from '@/data/store';
 import { Flag } from '@/components/ui/Flag';
 import { useI18n } from '@/i18n';
-import { useLayout } from '@/theme/layout';
 import { useTheme } from '@/theme/ThemeProvider';
 import { fonts, radius } from '@/theme/tokens';
-
-const campus = require('@/assets/images/lfk-campus.png');
 
 export default function Home() {
   const { colors } = useTheme();
   const { d, f, formatDate } = useI18n();
-  const { isMobile } = useLayout();
   const me = useMe();
   const { db } = useStore();
   const { unread } = useInbox();
@@ -34,6 +30,7 @@ export default function Home() {
   const promoMates = me.promo ? members.filter((u) => u.promo === me.promo) : [];
   const promoInfo = db.promos.find((p) => p.year === me.promo);
   const pending = db.users.filter((u) => !u.approved).length;
+  const markers = useDestinationMarkers();
 
   const actions: { icon: IconName; label: string; href: string; badge?: number }[] = [
     ...(can(me, 'viewEvents') ? [{ icon: 'calendar' as const, label: d.home.seeEvents, href: '/evenements' }] : []),
@@ -48,28 +45,17 @@ export default function Home() {
 
   return (
     <Screen>
-      {/* Greeting */}
-      <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
-        <View style={{ gap: 4, flexShrink: 1 }}>
-          <Txt variant={isMobile ? 'h1' : 'display'}>{f(d.home.hello, { name: me.firstName })} 👋</Txt>
-          <Txt color="textMuted">
-            {formatDate(new Date(), { weekday: true })} · {me.fonction ?? d.roles[me.role]} · {d.app.name}
-          </Txt>
-        </View>
-        {me.role === 'admin' && pending > 0 && (
-          <Button label={f(d.home.adminShortcutSub, { n: pending })} icon="shield" variant="soft" size="sm" onPress={() => router.push('/admin/approbations')} />
-        )}
-      </View>
-
-      {/* Hero */}
-      <View style={{ height: isMobile ? 230 : 260, borderRadius: radius.hero, overflow: 'hidden', backgroundColor: '#000' }}>
-        <Image source={campus} style={{ position: 'absolute', width: '100%', height: '100%' }} contentFit="cover" />
-        <LinearGradient colors={['rgba(8,10,20,0.15)', 'rgba(8,10,20,0.85)']} start={{ x: 0.6, y: 0 }} end={{ x: 0, y: 1 }} style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} />
-        <View style={{ flex: 1, justifyContent: 'flex-end', padding: isMobile ? 20 : 32, gap: 8 }}>
-          <Txt style={{ color: '#fff', fontFamily: fonts.extrabold, fontSize: isMobile ? 24 : 32, lineHeight: isMobile ? 30 : 38, letterSpacing: -0.8 }}>{d.home.heroTitle}</Txt>
-          <Txt style={{ color: 'rgba(255,255,255,0.8)', fontFamily: fonts.medium, fontSize: isMobile ? 13 : 15, lineHeight: 21, maxWidth: 520 }}>{d.home.heroSub}</Txt>
-        </View>
-      </View>
+      {/* Hero — Interactive Globe card: greeting, network figures, alumni globe */}
+      <GlobeCard
+        compact
+        title={f(d.home.hello, { name: me.firstName })}
+        lead={`${formatDate(new Date(), { weekday: true })} · ${me.fonction ?? d.roles[me.role]}`}
+        markers={markers}
+        stats={<StatsRow light dense />}>
+        {me.role === 'admin' && pending > 0 ? (
+          <Button label={f(d.home.adminShortcutSub, { n: pending })} icon="shield" size="sm" variant="onDark" onPress={() => router.push('/admin/approbations')} />
+        ) : null}
+      </GlobeCard>
 
       {/* Quick actions */}
       <View>
@@ -79,13 +65,11 @@ export default function Home() {
             <Tap
               key={a.label}
               onPress={() => router.push(a.href as never)}
-              style={{ flexDirection: 'row', alignItems: 'center', gap: 10, height: 48, paddingLeft: 8, paddingRight: 18, borderRadius: radius.pill, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border }}
-              hoverStyle={{ borderColor: colors.primary }}>
-              <View style={{ width: 34, height: 34, borderRadius: 17, backgroundColor: colors.primarySoft, alignItems: 'center', justifyContent: 'center' }}>
-                <Feather name={a.icon} size={16} color={colors.primary} />
-              </View>
+              style={{ flexDirection: 'row', alignItems: 'center', gap: 10, height: 42, paddingHorizontal: 14, borderRadius: radius.input, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border }}
+              hoverStyle={{ borderColor: colors.borderStrong, backgroundColor: colors.surfaceAlt }}>
+              <Feather name={a.icon} size={16} color={colors.secondary} />
               <Txt variant="smallStrong">{a.label}</Txt>
-              {!!a.badge && <Badge label={String(a.badge)} tone="danger" />}
+              {!!a.badge && <CountBadge n={a.badge} style={{ borderColor: 'transparent' }} />}
             </Tap>
           ))}
         </ScrollView>
@@ -151,7 +135,7 @@ export default function Home() {
                 </View>
                 <Badge
                   label={b.inDays === 0 ? d.common.today : b.inDays === 1 ? d.common.tomorrow : f(d.common.inDays, { n: b.inDays })}
-                  tone={b.inDays <= 2 ? 'warning' : 'neutral'}
+                  tone={b.inDays <= 2 ? 'primary' : 'neutral'}
                 />
               </Tap>
             ))}
@@ -233,7 +217,7 @@ function LeadershipCard() {
     <Card style={{ height: '100%' }}>
       <SectionHeader title={d.nav.stats} icon="bar-chart-2" />
       <View style={{ flex: 1, gap: 12 }}>
-        <Txt style={{ fontFamily: fonts.extrabold, fontSize: 40, lineHeight: 44, letterSpacing: -1, color: colors.text }}>{alumni.length}</Txt>
+        <Txt style={{ fontFamily: fonts.serif, fontSize: 48, lineHeight: 50, color: colors.text }}>{alumni.length}</Txt>
         <Txt variant="small" color="textMuted">{f(d.stats.cardSub, { n: members.length, c: countries })}</Txt>
         <Txt variant="small" color="textSubtle">{d.stats.subtitle}</Txt>
       </View>

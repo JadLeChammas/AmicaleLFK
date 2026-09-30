@@ -1,4 +1,5 @@
 import { Feather } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { ScrollView, View } from 'react-native';
@@ -71,7 +72,7 @@ export default function Directory() {
           <Feather name="sliders" size={16} color={colors.textMuted} />
           <Select compact value={promo} onChange={setPromo} placeholder={d.directory.filterPromo} searchable options={[{ value: 'all' as const, label: d.directory.allPromos }, ...years.map((y) => ({ value: y, label: f(d.common.promo, { year: y }) }))]} />
           <Select compact value={country} onChange={setCountry} placeholder={d.directory.filterCountry} searchable options={[{ value: 'all', label: d.directory.allCountries }, ...countries.map((c) => ({ value: c.code, label: c[lang], leading: <Flag code={c.code} /> }))]} />
-          <Select compact value={school} onChange={setSchool} placeholder={d.directory.filterSchool} searchable options={[{ value: 'all', label: `${d.common.all} — ${d.directory.filterSchool}` }, ...schools.map((s) => ({ value: s, label: s }))]} />
+          <Select compact value={school} onChange={setSchool} placeholder={d.directory.filterSchool} searchable options={[{ value: 'all', label: d.directory.allSchools }, ...schools.map((s) => ({ value: s, label: s }))]} />
           {isFiltering && <Button label={d.common.cancel} variant="ghost" size="sm" icon="x" onPress={reset} />}
         </Row>
       </View>
@@ -79,11 +80,15 @@ export default function Directory() {
       {!isFiltering && (
         <View style={{ gap: 10 }}>
           <Txt variant="caption">{d.directory.jumpTo}</Txt>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8 }}>
-            {years.map((y) => (
-              <Chip key={y} label={String(y)} active={y === me.promo} onPress={() => router.push(`/annuaire/promo/${y}`)} count={members.filter((u) => u.promo === y).length} />
-            ))}
-          </ScrollView>
+          <View>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingRight: 40 }}>
+              {years.map((y) => (
+                <Chip key={y} label={String(y)} active={y === me.promo} onPress={() => router.push(`/annuaire/promo/${y}`)} count={members.filter((u) => u.promo === y).length} />
+              ))}
+            </ScrollView>
+            {/* fade at the right edge: more years scroll into view */}
+            <LinearGradient colors={[`${colors.bg}00`, colors.bg]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} pointerEvents="none" style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 48 }} />
+          </View>
         </View>
       )}
 

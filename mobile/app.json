@@ -26,14 +26,14 @@
       "favicon": "./assets/images/favicon.png",
       "name": "Amicale LFK",
       "shortName": "Amicale LFK",
-      "themeColor": "#2E45D6"
+      "themeColor": "#00206A"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#000000",
+          "backgroundColor": "#00206A",
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200
         }

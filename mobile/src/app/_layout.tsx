@@ -1,10 +1,6 @@
-import {
-  PlusJakartaSans_500Medium,
-  PlusJakartaSans_600SemiBold,
-  PlusJakartaSans_700Bold,
-  PlusJakartaSans_800ExtraBold,
-  useFonts,
-} from '@expo-google-fonts/plus-jakarta-sans';
+import { BebasNeue_400Regular } from '@expo-google-fonts/bebas-neue';
+import { InstrumentSerif_400Regular, InstrumentSerif_400Regular_Italic } from '@expo-google-fonts/instrument-serif';
+import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold, useFonts } from '@expo-google-fonts/inter';
 import { DarkTheme, DefaultTheme, ThemeProvider as NavThemeProvider, Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
@@ -34,7 +30,7 @@ export default function RootLayout() {
 function RootNavigator() {
   const { scheme, colors } = useTheme();
   const { ready, session, me } = useStore();
-  const [fontsLoaded] = useFonts({ PlusJakartaSans_500Medium, PlusJakartaSans_600SemiBold, PlusJakartaSans_700Bold, PlusJakartaSans_800ExtraBold });
+  const [fontsLoaded] = useFonts({ Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold, InstrumentSerif_400Regular, InstrumentSerif_400Regular_Italic, BebasNeue_400Regular });
   const loaded = ready && fontsLoaded;
 
   useEffect(() => {
@@ -67,6 +63,10 @@ function RootNavigator() {
         <Stack.Protected guard={approved}>
           <Stack.Screen name="(app)" />
         </Stack.Protected>
+        <Stack.Screen name="association" />
+        <Stack.Screen name="bureau" />
+        <Stack.Screen name="partenaires" />
+        <Stack.Screen name="adherer" />
         <Stack.Screen name="mentions-legales" />
         <Stack.Screen name="plan-du-site" />
         <Stack.Screen name="contact" />

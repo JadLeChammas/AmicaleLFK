@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
 import { canMessage } from './permissions';
-import { createSeed } from './seed';
+import { createSeed, DEMO_ACCOUNTS } from './seed';
 import type {
   AdminLog,
   AdminLogAction,
@@ -100,6 +100,14 @@ function useStoreValue() {
     signIn(email: string, password: string): Result {
       const u = findByEmail(email);
       if (!u || u.password !== password) return { ok: false, error: 'invalid_credentials' };
+      commit((d) => ({ ...d, users: d.users.map((x) => (x.id === u.id ? { ...x, lastActiveAt: nowIso() } : x)) }));
+      saveSession({ userId: u.id });
+      return { ok: true };
+    },
+    /** Demo access — one click, no credentials: signs in as `email` (the admin by default, who sees everything). */
+    enterDemo(email: string = DEMO_ACCOUNTS.admin): Result {
+      const u = findByEmail(email) ?? dbRef.current?.users.find((x) => x.role === 'admin' && x.approved);
+      if (!u) return { ok: false, error: 'invalid_credentials' };
       commit((d) => ({ ...d, users: d.users.map((x) => (x.id === u.id ? { ...x, lastActiveAt: nowIso() } : x)) }));
       saveSession({ userId: u.id });
       return { ok: true };

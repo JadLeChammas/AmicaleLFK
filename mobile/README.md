@@ -17,7 +17,10 @@ npm run ios        # simulateur iOS (macOS) ou Expo Go
 ## Comptes de démonstration
 
 Les données sont pour l'instant une **démo locale** (`src/data/seed.ts`), enregistrée sur
-l'appareil. Sur l'écran de connexion, les boutons « Comptes de démonstration » ouvrent :
+l'appareil. **Aucun mot de passe n'est demandé** : n'importe quel bouton « Se connecter » (page
+d'accueil publique, en-tête du site, écran de connexion) ouvre directement le compte admin, qui voit
+toute la plateforme. Sur l'écran de connexion, les boutons « Comptes de démonstration » ouvrent les
+autres points de vue :
 
 | Compte | E-mail | Accès |
 |---|---|---|
@@ -27,7 +30,7 @@ l'appareil. Sur l'écran de connexion, les boutons « Comptes de démonstration 
 | Direction | `direction@amicale-lfk.demo` | Proviseur (Membre d'honneur) : espace membre + publier, créer des événements, statistiques |
 | En attente | `attente@amicale-lfk.demo` | Écran « compte en attente » |
 
-Mot de passe : `demo1234`. Paramètres → Zone sensible → « Réinitialiser les données de démo »
+(Le mot de passe `demo1234` n'est plus nécessaire en mode démo.) Paramètres → Zone sensible → « Réinitialiser les données de démo »
 remet tout à zéro.
 
 ## Vérifications

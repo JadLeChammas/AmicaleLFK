@@ -1,72 +1,96 @@
 export type ColorScheme = 'light' | 'dark';
 
+/**
+ * Brand palette (v2):
+ *   red   #AE0000 — main: actions, emphasis, live markers
+ *   blue  #6680AE — main: navigation, icons, globe & charts
+ *   navy  #00206A — accent: headings on brand surfaces, strong buttons, hero panels
+ *   sky   #C8D3E5 — accent: soft fills, borders, globe land
+ *   white          — card surfaces (the app background is a light-blue tint)
+ */
+export const brand = { red: '#AE0000', blue: '#6680AE', navy: '#00206A', sky: '#C8D3E5', white: '#FFFFFF' } as const;
+
 const light = {
-  bg: '#F6F7FB',
+  bg: '#E4EAF4',
   surface: '#FFFFFF',
-  surfaceAlt: '#F0F2F7',
-  surfaceHover: '#F4F5FA',
-  border: '#E6E8EF',
-  borderStrong: '#D5D9E3',
-  text: '#0E1320',
-  textMuted: '#5B6275',
-  textSubtle: '#8A90A0',
-  primary: '#2E45D6',
-  primaryPressed: '#2438B8',
-  primarySoft: '#E9ECFF',
+  surfaceAlt: '#EEF2F8',
+  surfaceHover: '#E9EEF6',
+  border: '#D5DEEB',
+  borderStrong: '#C8D3E5',
+  text: '#0A1633',
+  textMuted: '#4B5876',
+  textSubtle: '#8290AC',
+  primary: '#AE0000',
+  primaryPressed: '#8E0000',
+  /** Soft fill behind red text/icons — pale brand blue, so red never sits on pink. */
+  primarySoft: '#E8EEF8',
   onPrimary: '#FFFFFF',
-  ink: '#111726',
+  secondary: '#6680AE',
+  secondaryStrong: '#3F5A8C',
+  secondarySoft: '#EDF1F8',
+  navy: '#00206A',
+  sky: '#C8D3E5',
+  /** Navigation chrome (sidebar, phone bars): brand navy in light, a deep navy below the cards in dark. */
+  rail: '#00206A',
+  ink: '#00206A',
   onInk: '#FFFFFF',
   silver: '#A7ADBA',
   success: '#12A150',
   successSoft: '#E3F6EB',
   warning: '#B98500',
   warningSoft: '#FFF4D6',
-  danger: '#E5484D',
-  dangerSoft: '#FDECEC',
-  info: '#0B8FCC',
-  infoSoft: '#E1F3FB',
+  danger: '#D92D20',
+  dangerSoft: '#FDECEA',
+  info: '#3F5A8C',
+  infoSoft: '#EDF1F8',
   violet: '#7C4DDB',
   violetSoft: '#F0EAFD',
-  overlay: 'rgba(8, 10, 16, 0.55)',
-  bubbleMine: '#2E45D6',
-  bubbleTheirs: '#F0F2F7',
-  shadow: 'rgba(17, 23, 38, 0.06)',
-  /** Validated categorical chart order (dataviz validator, light surface). */
-  chart: ['#2E45D6', '#E0A100', '#7C4DDB', '#12A150'],
+  overlay: 'rgba(0, 16, 53, 0.55)',
+  bubbleMine: '#00206A',
+  bubbleTheirs: '#F3F6FB',
+  shadow: 'rgba(0, 32, 106, 0.08)',
+  /** Categorical chart order: navy, red, blue, amber. */
+  chart: ['#00206A', '#AE0000', '#6680AE', '#9DB0D3'],
 };
 
 const dark: typeof light = {
-  bg: '#0B0D12',
-  surface: '#14171F',
-  surfaceAlt: '#1B1F29',
-  surfaceHover: '#1E2330',
-  border: '#262B36',
-  borderStrong: '#343A48',
-  text: '#EEF0F5',
-  textMuted: '#9AA1B2',
-  textSubtle: '#6D7486',
-  primary: '#6C7FFF',
-  primaryPressed: '#5A6EF0',
-  primarySoft: '#1C2250',
+  bg: '#07112B',
+  surface: '#0D1A3B',
+  surfaceAlt: '#132248',
+  surfaceHover: '#172A55',
+  border: '#1F3160',
+  borderStrong: '#2D4378',
+  text: '#EEF2FA',
+  textMuted: '#A9B6D1',
+  textSubtle: '#7282A6',
+  primary: '#E23B40',
+  primaryPressed: '#C62F35',
+  primarySoft: '#16254A',
   onPrimary: '#FFFFFF',
-  ink: '#EEF0F5',
-  onInk: '#0B0D12',
+  secondary: '#8FA5CF',
+  secondaryStrong: '#B4C4E2',
+  secondarySoft: '#16254A',
+  navy: '#00206A',
+  sky: '#C8D3E5',
+  rail: '#040C24',
+  ink: '#B4C4E2',
+  onInk: '#040B1F',
   silver: '#C9CED8',
   success: '#3DD68C',
-  successSoft: '#12291E',
+  successSoft: '#10291E',
   warning: '#F5C542',
   warningSoft: '#2B2412',
-  danger: '#FF6B70',
-  dangerSoft: '#2E1618',
-  info: '#4CC3F5',
-  infoSoft: '#10242E',
+  danger: '#FF6B6B',
+  dangerSoft: '#2E1416',
+  info: '#8FA5CF',
+  infoSoft: '#16254A',
   violet: '#A98BFF',
   violetSoft: '#221A38',
   overlay: 'rgba(0, 0, 0, 0.7)',
-  bubbleMine: '#4F63F0',
-  bubbleTheirs: '#1F2430',
+  bubbleMine: '#6680AE',
+  bubbleTheirs: '#14244A',
   shadow: 'rgba(0, 0, 0, 0)',
-  chart: ['#6C7FFF', '#B3861A', '#9A7BF0', '#239E63'],
+  chart: ['#8FA5CF', '#E5393B', '#C8D3E5', '#4F6696'],
 };
 
 export const palettes = { light, dark };
@@ -74,25 +98,34 @@ export type Colors = typeof light;
 export type ColorToken = Exclude<keyof Colors, 'chart'>;
 
 export const space = { xs: 4, sm: 8, md: 12, lg: 16, xl: 20, xxl: 24, xxxl: 32, huge: 48 } as const;
-export const radius = { sm: 10, input: 14, card: 20, hero: 28, pill: 999 } as const;
+export const radius = { sm: 6, input: 8, card: 12, hero: 16, pill: 999 } as const;
 
+/**
+ * Editorial pairing: Instrument Serif for display headlines, Inter for everything else.
+ * (`extrabold` is kept as an alias so older call sites stay valid.)
+ */
 export const fonts = {
-  medium: 'PlusJakartaSans_500Medium',
-  semibold: 'PlusJakartaSans_600SemiBold',
-  bold: 'PlusJakartaSans_700Bold',
-  extrabold: 'PlusJakartaSans_800ExtraBold',
+  regular: 'Inter_400Regular',
+  medium: 'Inter_500Medium',
+  semibold: 'Inter_600SemiBold',
+  bold: 'Inter_700Bold',
+  extrabold: 'Inter_700Bold',
+  serif: 'InstrumentSerif_400Regular',
+  serifItalic: 'InstrumentSerif_400Regular_Italic',
+  /** Condensed display for giant figures (Bebas Neue). */
+  display: 'BebasNeue_400Regular',
 } as const;
 
 export const type = {
-  display: { fontFamily: fonts.extrabold, fontSize: 34, lineHeight: 40, letterSpacing: -0.8 },
-  h1: { fontFamily: fonts.extrabold, fontSize: 28, lineHeight: 34, letterSpacing: -0.6 },
-  h2: { fontFamily: fonts.bold, fontSize: 20, lineHeight: 26, letterSpacing: -0.3 },
-  h3: { fontFamily: fonts.bold, fontSize: 16, lineHeight: 22, letterSpacing: -0.2 },
-  body: { fontFamily: fonts.medium, fontSize: 15, lineHeight: 22 },
-  bodyStrong: { fontFamily: fonts.semibold, fontSize: 15, lineHeight: 22 },
-  small: { fontFamily: fonts.medium, fontSize: 13, lineHeight: 18 },
-  smallStrong: { fontFamily: fonts.semibold, fontSize: 13, lineHeight: 18 },
-  caption: { fontFamily: fonts.bold, fontSize: 11, lineHeight: 14, letterSpacing: 1.1, textTransform: 'uppercase' as const },
+  display: { fontFamily: fonts.serif, fontSize: 48, lineHeight: 52, letterSpacing: -0.6 },
+  h1: { fontFamily: fonts.serif, fontSize: 36, lineHeight: 40, letterSpacing: -0.4 },
+  h2: { fontFamily: fonts.semibold, fontSize: 18, lineHeight: 24, letterSpacing: -0.3 },
+  h3: { fontFamily: fonts.semibold, fontSize: 15, lineHeight: 21, letterSpacing: -0.2 },
+  body: { fontFamily: fonts.regular, fontSize: 15, lineHeight: 23 },
+  bodyStrong: { fontFamily: fonts.medium, fontSize: 15, lineHeight: 22 },
+  small: { fontFamily: fonts.regular, fontSize: 13, lineHeight: 19 },
+  smallStrong: { fontFamily: fonts.medium, fontSize: 13, lineHeight: 18 },
+  caption: { fontFamily: fonts.medium, fontSize: 11, lineHeight: 14, letterSpacing: 1.6, textTransform: 'uppercase' as const },
 } as const;
 export type TypeVariant = keyof typeof type;
 
