@@ -78,7 +78,7 @@ export function HBarList({ data, max: maxProp, color }: { data: (Datum & { leadi
         <View key={d.label} style={{ gap: 6 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
             {d.leading}
-            <Txt variant="small" numberOfLines={1} style={{ flex: 1 }}>{d.label}</Txt>
+            <Txt variant="small" style={{ flex: 1 }}>{d.label}</Txt>
             <Txt variant="smallStrong">{d.value}</Txt>
           </View>
           <View style={{ height: 6, borderRadius: 3, backgroundColor: colors.surfaceAlt, overflow: 'hidden' }}>
@@ -129,11 +129,11 @@ export function Donut({ data, size = 140, centerLabel, centerValue }: { data: Da
           </View>
         )}
       </View>
-      <View style={{ gap: 10, flex: 1, minWidth: 140 }}>
+      <View style={{ gap: 10, flex: 1, minWidth: 190 }}>
         {data.map((d, i) => (
           <View key={d.label} style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
             <View style={{ width: 10, height: 10, borderRadius: 3, backgroundColor: colors.chart[i % colors.chart.length] }} />
-            <Txt variant="small" numberOfLines={1} style={{ flex: 1 }}>{d.label}</Txt>
+            <Txt variant="small" style={{ flex: 1 }}>{d.label}</Txt>
             <Txt variant="smallStrong">{d.value}</Txt>
             <Txt variant="small" color="textSubtle" style={{ width: 38, textAlign: 'right' }}>{Math.round((d.value / total) * 100)}%</Txt>
           </View>
